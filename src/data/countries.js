@@ -23,5 +23,6 @@ export const countries = [
   { name: 'Thailand', code: 'th', region: 'Asia Pacific', dial: '+66' },
   { name: 'Vietnam', code: 'vn', region: 'Asia Pacific', dial: '+84' },
   { name: 'Bangladesh', code: 'bd', region: 'South Asia', dial: '+880' },
-  { name: 'Sri Lanka', code: 'lk', region: 'South Asia', dial: '+94' }
-];
+  { name: 'Sri Lanka', code: 'lk', region: 'South Asia', dial: '+94' },
+
+]

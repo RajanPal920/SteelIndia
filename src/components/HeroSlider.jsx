@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, ShieldCheck, CheckCircle2 } from
 const slides = [
   {
     id: 1,
-    eyebrow: 'STEELINDIA | INDUSTRIAL STEEL SUPPLY',
+    eyebrow: 'STEEL INDIA | INDUSTRIAL STEEL SUPPLY',
     heading: 'Precision Pipes & Tubes. Built for Performance.',
     description: 'Explore a comprehensive range of seamless and welded steel pipes and tubes for engineering, process and industrial applications.',
     primaryCta: 'Explore Pipes & Tubes',
@@ -31,7 +31,7 @@ const slides = [
   },
   {
     id: 3,
-    eyebrow: 'STEELINDIA | INDUSTRIAL STEEL SUPPLY',
+    eyebrow: 'STEEL INDIA | INDUSTRIAL STEEL SUPPLY',
     heading: 'Precision Round Bars & Sheets.',
     description: 'Explore centerless ground round bars, forged bars and precision components for diverse engineering, process and infrastructure applications.',
     primaryCta: 'View Round Bars & Sheets',
@@ -73,12 +73,10 @@ export default function HeroSlider() {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   }, [totalSlides]);
 
-  // Autoplay timer with 5.5s duration, paused on user interaction
+  // Autoplay timer
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
-      return;
-    }
+    if (mediaQuery.matches) return;
 
     if (!isPaused) {
       timerRef.current = setInterval(() => {
@@ -90,19 +88,15 @@ export default function HeroSlider() {
     };
   }, [isPaused, nextSlide]);
 
-  // Keyboard navigation support
   const handleKeyDown = (e) => {
-    if (e.key === 'ArrowLeft') {
-      prevSlide();
-    } else if (e.key === 'ArrowRight') {
-      nextSlide();
-    }
+    if (e.key === 'ArrowLeft') prevSlide();
+    else if (e.key === 'ArrowRight') nextSlide();
   };
 
   return (
     <section
       ref={sliderRef}
-      className="relative w-full bg-navy-950 overflow-hidden border-b border-navy-900 select-none"
+      className="relative w-full bg-slate-100 overflow-hidden select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={() => setIsPaused(true)}
@@ -111,15 +105,14 @@ export default function HeroSlider() {
       onBlur={() => setIsPaused(false)}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      aria-label="SteelIndia Full-Width Industrial Hero Showcase"
+      aria-label="Steel India Hero Showcase"
     >
-      {/* 
-        Hero Container Dimensions:
-        Full-width edge-to-edge container without dark overlay layer
-      */}
-      <div className="relative w-full min-h-[500px] sm:min-h-[520px] md:min-h-[540px] lg:h-[650px]">
+      {/* Top Brand Accent Line (Logo Blue & Red) */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#0055A4] via-[#0055A4] to-[#E3000F] z-30"></div>
 
-        {/* Background Images Layer — Full Natural Brightness with Smooth Crossfade (NO OVERLAY) */}
+      <div className="relative w-full min-h-[550px] sm:min-h-[600px] md:min-h-[640px] lg:h-[600px]">
+
+        {/* Background Images Layer — Clear, No Overlay */}
         {slides.map((slide, index) => {
           const isActive = index === currentSlide;
           return (
@@ -129,11 +122,10 @@ export default function HeroSlider() {
                 }`}
               aria-hidden={!isActive}
             >
-              {/* Full-width clean background photograph without any dark overlay */}
               <img
                 src={slide.image}
                 alt={slide.imageAlt}
-                className="w-full h-full object-cover object-center lg:object-[center_35%] transform scale-100 will-change-transform"
+                className="w-full h-full object-cover object-center lg:object-[center_40%]"
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchPriority={index === 0 ? "high" : "auto"}
               />
@@ -141,11 +133,10 @@ export default function HeroSlider() {
           );
         })}
 
-        {/* Foreground Content Layer — Centered Max-Width Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between py-8 sm:py-10 lg:py-12">
+        {/* Foreground Content Layer */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between py-10 lg:py-14">
 
-          {/* Main Hero Content Block */}
-          <div className="flex-1 flex flex-col justify-center my-auto">
+          <div className="flex-1 flex flex-col justify-center">
             {slides.map((slide, index) => {
               const isActive = index === currentSlide;
               if (!isActive) return null;
@@ -153,123 +144,116 @@ export default function HeroSlider() {
               return (
                 <div
                   key={`content-${slide.id}`}
-                  className="w-full sm:max-w-xl md:max-w-2xl lg:w-[58%] xl:w-[54%] text-left animate-fadeIn bg-navy-950/70 sm:bg-navy-950/65 backdrop-blur-md p-6 sm:p-8 lg:p-9 rounded-2xl border border-white/20 shadow-2xl"
+                  className="w-full sm:max-w-xl md:max-w-2xl lg:w-[60%] xl:w-[55%] text-left animate-fadeIn"
                 >
-                  {/* Eyebrow Label with illuminated accent dot */}
-                  <div className="inline-flex items-center space-x-2 bg-navy-900 text-industrial-glow px-3 py-1.5 rounded-md text-xs font-bold tracking-widest uppercase border border-white/20 shadow-sm mb-3.5 sm:mb-4">
-                    <span className="w-2 h-2 rounded-full bg-industrial-amber shadow-[0_0_8px_rgba(217,92,20,1)] animate-pulse" aria-hidden="true" />
-                    <span>{slide.eyebrow}</span>
-                  </div>
+                  {/* Clean White Glass Card - No dark overlay, highly readable */}
+                  <div className="bg-blue-100/60  backdrop-blur-m p-6 sm:p-8 lg:p-10 rounded-2xl border border-white/50">
 
-                  {/* Main Large Bold Heading with crisp text shadow for readability */}
-                  <h1
-                    className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-white leading-[1.15] tracking-tight mb-3.5 sm:mb-4"
-                    style={{
-                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.8)'
-                    }}
-                  >
-                    {slide.heading}
-                  </h1>
-
-                  {/* Description Text */}
-                  <p
-                    className="text-sm sm:text-base lg:text-[17px] text-slate-100 leading-relaxed max-w-xl mb-5 sm:mb-6 font-normal"
-                    style={{
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.7)'
-                    }}
-                  >
-                    {slide.description}
-                  </p>
-
-                  {/* Trust & Specification Feature Badges */}
-                  <div className="flex flex-wrap items-center gap-2.5 mb-6 sm:mb-7">
-                    <div className="inline-flex items-center space-x-1.5 bg-navy-900/90 text-white px-3 py-1.5 rounded-md text-xs font-semibold border border-white/20 shadow-sm">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>{slide.featureBadge}</span>
+                    {/* Eyebrow Label - Brand Colors */}
+                    <div className="inline-flex items-center space-x-2 bg-white/50 text-[#0055A4] px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-widest uppercase border border-blue-100 mb-4 sm:mb-5">
+                      <span className="w-2 h-2 rounded-full bg-[#E3000F] animate-pulse" aria-hidden="true" />
+                      <span>{slide.eyebrow}</span>
                     </div>
-                    <div className="inline-flex items-center space-x-1.5 bg-navy-900/90 text-white px-3 py-1.5 rounded-md text-xs font-semibold border border-white/20 shadow-sm">
-                      <ShieldCheck className="w-3.5 h-3.5 text-steel-300 shrink-0" />
-                      <span>MTC EN 10204 3.1 Traceability</span>
+
+                    {/* Main Heading - Brand Blue */}
+                    <h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-[#0055A4] leading-[1.1] tracking-tight mb-4">
+                      {slide.heading}
+                    </h1>
+
+                    {/* Description Text */}
+                    <p className="font-bold text-sm sm:text-base text-gray-700 leading-relaxed max-w-xl mb-6">
+                      {slide.description}
+                    </p>
+
+                    {/* Feature Badges */}
+                    <div className="flex flex-wrap items-center gap-2.5 mb-8">
+                      <div className="inline-flex items-center space-x-1.5 bg-slate-50 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold border border-slate-200">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#0055A4] shrink-0" />
+                        <span>{slide.featureBadge}</span>
+                      </div>
+                      <div className="inline-flex items-center space-x-1.5 bg-slate-50 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold border border-slate-200">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#E3000F] shrink-0" />
+                        <span>MTC EN 10204 3.1</span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* CTA Buttons */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                    {/* Primary CTA (SteelIndia Orange) */}
-                    <Link
-                      to={slide.primaryLink}
-                      id="hero-primary-cta"
-                      className="group inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-bold text-white bg-industrial-amber hover:bg-industrial-hover shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-industrial-amber focus:ring-offset-2 focus:ring-offset-navy-950"
-                    >
-                      <span>{slide.primaryCta}</span>
-                      <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
-                    </Link>
+                    {/* CTA Buttons with Animations */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
 
-                    {/* Secondary CTA (Solid High-Contrast Navy/Border) */}
-                    <Link
-                      to={slide.secondaryLink}
-                      id="hero-secondary-cta"
-                      className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-bold text-white bg-navy-900 hover:bg-navy-800 border-2 border-white/40 hover:border-white shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy-950"
-                    >
-                      <span>{slide.secondaryCta}</span>
-                    </Link>
+                      {/* Primary CTA - Brand Red with Hover effect */}
+                      <Link
+                        to={slide.primaryLink}
+                        className="group relative inline-flex items-center justify-center px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-[#E3000F] overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_10px_20px_-10px_rgba(227,0,15,0.5)] focus:outline-none focus:ring-2 focus:ring-[#E3000F] focus:ring-offset-2"
+                      >
+                        {/* Sliding background animation on hover */}
+                        <span className="absolute inset-0 w-full h-full bg-[#C2000D] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
+                        <span className="relative z-10 flex items-center">
+                          {slide.primaryCta}
+                          <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1.5" />
+                        </span>
+                      </Link>
+
+                      {/* Secondary CTA - Brand Blue Outline with Hover effect */}
+                      <Link
+                        to={slide.secondaryLink}
+                        className="group inline-flex items-center justify-center px-7 py-3.5 rounded-lg text-sm font-bold text-[#0055A4] bg-transparent border-2 border-[#0055A4] hover:bg-[#0055A4] hover:text-white transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:ring-offset-2"
+                      >
+                        <span>{slide.secondaryCta}</span>
+                      </Link>
+
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Bottom Slider Controls Bar: Docked Controls with Dark Backdrop */}
-          <div className="flex items-center justify-between pt-4 mt-auto">
+          {/* Bottom Slider Controls - Clean White Dock */}
+          <div className="flex items-center justify-between pt-6 mt-auto">
 
-            {/* Left: Interactive Progress Indicators & Number Counter Dock */}
-            <div className="flex items-center space-x-3 bg-navy-950/85 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/20 shadow-lg">
+            {/* Progress Indicators */}
+            <div className="flex items-center space-x-4 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-full border border-slate-200 shadow-sm">
               <div className="flex items-center space-x-2">
                 {slides.map((_, dotIdx) => (
                   <button
                     key={`dot-${dotIdx}`}
                     type="button"
                     onClick={() => setCurrentSlide(dotIdx)}
-                    className={`h-2.5 transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-industrial-amber ${dotIdx === currentSlide
-                      ? 'w-8 sm:w-10 bg-industrial-amber shadow-[0_0_8px_rgba(217,92,20,0.8)]'
-                      : 'w-2.5 sm:w-3 bg-white/40 hover:bg-white/80'
+                    className={`h-2 transition-all duration-300 rounded-full focus:outline-none ${dotIdx === currentSlide
+                      ? 'w-8 bg-[#E3000F]'
+                      : 'w-2 bg-slate-300 hover:bg-slate-400'
                       }`}
-                    aria-label={`Go to slide ${dotIdx + 1} of ${totalSlides}`}
+                    aria-label={`Go to slide ${dotIdx + 1}`}
                   />
                 ))}
               </div>
-
-              {/* Slide Counter (e.g. 01 / 03) */}
-              <span className="text-xs sm:text-sm font-mono text-white font-bold tracking-wider ml-1" aria-live="polite">
-                0{currentSlide + 1} <span className="text-slate-400">/</span> 0{totalSlides}
+              <span className="text-xs font-mono font-bold text-slate-700 tracking-wider">
+                <span className="text-[#0055A4]">0{currentSlide + 1}</span> / 0{totalSlides}
               </span>
             </div>
 
-            {/* Right: Prev / Next Navigation Arrows Dock */}
-            <div className="flex items-center space-x-2 bg-navy-950/85 backdrop-blur-md p-1.5 rounded-xl border border-white/20 shadow-lg">
+            {/* Navigation Arrows */}
+            <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-md p-1.5 rounded-full border border-slate-200 shadow-sm">
               <button
                 type="button"
                 onClick={prevSlide}
-                id="hero-prev-slide-btn"
-                className="p-2 sm:p-2.5 rounded-lg bg-navy-900 hover:bg-navy-800 text-white border border-white/10 hover:border-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-industrial-amber"
+                className="p-2.5 rounded-full bg-slate-50 hover:bg-[#0055A4] text-slate-600 hover:text-white border border-slate-200 hover:border-[#0055A4] transition-all duration-300 focus:outline-none"
                 aria-label="Previous Slide"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
-
               <button
                 type="button"
                 onClick={nextSlide}
-                id="hero-next-slide-btn"
-                className="p-2 sm:p-2.5 rounded-lg bg-navy-900 hover:bg-navy-800 text-white border border-white/10 hover:border-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-industrial-amber"
+                className="p-2.5 rounded-full bg-slate-50 hover:bg-[#0055A4] text-slate-600 hover:text-white border border-slate-200 hover:border-[#0055A4] transition-all duration-300 focus:outline-none"
                 aria-label="Next Slide"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   );

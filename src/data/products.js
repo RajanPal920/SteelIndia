@@ -392,5 +392,53 @@ export const products = [
       'Fully ultrasonic tested to ASTM A388 standards with zero defect tolerance',
       'Proof machined for instant mounting onto final CNC finish-turning chucks'
     ]
+  },
+
+  {
+    id: 'valves',
+    name: 'Valves',
+    tag: 'Flow Control',
+    shortDesc: 'Industrial ball, gate, globe, check, and butterfly valves in stainless and carbon steel.',
+    longDesc: 'A comprehensive range of industrial valves for flow isolation, regulation, and control across process piping, oil and gas, chemical, and pharmaceutical systems. Available in cast and forged body construction across standard pressure classes.',
+    image: '/images/prod-flanges-fasteners.jpg',
+    specs: {
+      standards: 'API 600, API 602, API 608, ASME B16.34, BS 1868',
+      sizes: '1/4" NB to 48" NB',
+      pressureClasses: 'Class 150, 300, 600, 900, 1500 LBS; PN10 to PN250',
+      types: 'Ball Valves, Gate Valves, Globe Valves, Check Valves, Butterfly Valves, Needle Valves',
+      endConnections: 'Flanged (RF/RTJ), Butt Weld, Socket Weld, Threaded (NPT/BSPT)'
+    },
+    materials: ['Stainless Steel CF8 (304), CF8M (316), CF3M (316L)', 'Carbon Steel WCB, WCC, LCB', 'Alloy Steel WC6, WC9, C12A', 'Duplex CD4MCu, Super Duplex CE8MN'],
+    applications: ['Oil & Gas Pipelines', 'Chemical Processing Plants', 'Pharmaceutical & Food Industry', 'Power Generation Systems'],
+    features: [
+      'Full bore and reduced bore configurations for flexible flow control',
+      'Anti-blowout stem design ensuring safe operation under pressure',
+      'Fire-safe designs certified to API 607 / API 6FA',
+      'Available with extended bonnet, jacketed body, and cryogenic trim options'
+    ]
+  },
+
+  {
+    id: 'chequered-plates',
+    name: 'Chequered Plates',
+    tag: 'Anti-Slip Flooring',
+    shortDesc: 'Hot rolled raised pattern chequered / tear-drop floor plates for anti-slip applications.',
+    longDesc: 'Industrial chequered steel plates with raised tear-drop, diamond, or lentil raised patterns manufactured from hot rolled carbon steel and stainless steel. Widely used for flooring, staircase treads, platforms, and vehicle bodies.',
+    image: '/images/prod-sheets-plates.jpg',
+    specs: {
+      standards: 'IS 3502, BS 4360, ASTM A786',
+      thickness: '2.5mm to 12mm base metal thickness',
+      widths: '1250mm, 1500mm, 2000mm',
+      lengths: '2500mm, 3000mm, 6000mm or custom cut',
+      patterns: 'Tear Drop / Lentil, Diamond, Two-Bar, Three-Bar, Five-Bar (Quintet)'
+    },
+    materials: ['Carbon Steel IS 2062 / ASTM A36', 'Stainless Steel 304, 316', 'Galvanized (GI) Chequered Sheets', 'Mild Steel Hot Rolled'],
+    applications: ['Industrial Flooring & Mezzanine Decks', 'Staircase Treads & Walkways', 'Truck & Trailer Flooring', 'Ship Deck Plating'],
+    features: [
+      'Uniform raised pattern height providing consistent anti-slip performance',
+      'Superior flatness and clean sheared edges for easy fabrication',
+      'Available pre-painted or hot-dip galvanized for outdoor applications',
+      'Cut-to-size service available for custom platform dimensions'
+    ]
   }
 ];

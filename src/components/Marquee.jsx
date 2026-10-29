@@ -12,8 +12,8 @@ const marqueeLabels = [
 
 export default function Marquee() {
   return (
-    <div 
-      className="bg-navy-950 border-y border-navy-900 py-3.5 overflow-hidden select-none w-full"
+    <div
+      className="bg-[#0055A4] border-y border-[#003d7a] py-3.5 overflow-hidden select-none w-full"
       aria-label="SteelIndia Industrial Capabilities Continuous Marquee"
     >
       <div className="flex w-max">
@@ -24,7 +24,7 @@ export default function Marquee() {
               <span className="text-xs sm:text-sm font-extrabold tracking-widest text-white uppercase font-mono whitespace-nowrap">
                 {item}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-industrial-amber shrink-0" aria-hidden="true" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F] shrink-0" aria-hidden="true" />
             </React.Fragment>
           ))}
           {marqueeLabels.map((item, idx) => (
@@ -32,7 +32,7 @@ export default function Marquee() {
               <span className="text-xs sm:text-sm font-extrabold tracking-widest text-white uppercase font-mono whitespace-nowrap">
                 {item}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-industrial-amber shrink-0" aria-hidden="true" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F] shrink-0" aria-hidden="true" />
             </React.Fragment>
           ))}
         </div>
@@ -44,7 +44,7 @@ export default function Marquee() {
               <span className="text-xs sm:text-sm font-extrabold tracking-widest text-white uppercase font-mono whitespace-nowrap">
                 {item}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-industrial-amber shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F] shrink-0" />
             </React.Fragment>
           ))}
           {marqueeLabels.map((item, idx) => (
@@ -52,7 +52,7 @@ export default function Marquee() {
               <span className="text-xs sm:text-sm font-extrabold tracking-widest text-white uppercase font-mono whitespace-nowrap">
                 {item}
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-industrial-amber shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F] shrink-0" />
             </React.Fragment>
           ))}
         </div>

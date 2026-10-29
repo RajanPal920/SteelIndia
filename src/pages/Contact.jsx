@@ -2,146 +2,193 @@ import React from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import InquiryForm from '../components/InquiryForm';
 import SEO from '../components/SEO';
-import { 
-  Mail, Phone, MapPin, Clock, MessageSquare, 
-  Globe2, ShieldCheck, AlertCircle, FileText 
+import {
+  Mail, Phone, MapPin, Clock, MessageSquare,
+  Globe2, ShieldCheck, AlertCircle, FileText, Building2, ExternalLink
 } from 'lucide-react';
 
 export default function Contact() {
   return (
-    <div className="flex flex-col min-h-screen bg-white text-left">
-      <SEO 
-        title="Contact SteelIndia | Request Quotation & Technical Inquiries"
-        description="Submit your product dimensions, material grades, and specifications to SteelIndia's inquiry desk. Demo contact channels for domestic and international buyers."
+    <div className="flex flex-col min-h-screen bg-slate-50 text-left font-sans">
+      <SEO
+        title="Contact Steel India Co. (Chennai) Pvt. Ltd. | Request Quotation & Technical Inquiries"
+        description="Submit your product dimensions, material grades, and specifications to Steel India Co. (Chennai) Pvt. Ltd. Contact our Chennai, Bangalore, Mumbai, and Anantapur branches."
       />
 
       <Breadcrumb items={[{ label: 'Contact Us' }]} />
 
-      {/* Hero Strip */}
-      <section className="bg-slate-50 border-b border-slate-200 py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-industrial-amber bg-white px-3 py-1 rounded-full border border-slate-200">
+      {/* Hero Strip - Using Brand Red Theme */}
+      <section className="bg-[#E3000F] text-white py-14 sm:py-20 relative overflow-hidden">
+        {/* Decorative Blue Accent Line from Logo */}
+        <div className="absolute top-0 left-0 w-full h-2 bg-[#0055A4]"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl space-y-4">
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#E3000F] bg-white px-4 py-1.5 rounded-full shadow-sm">
               COMMERCIAL & TECHNICAL RFQ DESK
             </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-navy-950 tracking-tight">
-              Contact SteelIndia
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-md">
+              Contact Steel India Co. <br className="hidden sm:block" /> (Chennai) Pvt. Ltd.
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Have an upcoming project requisition or Bill of Materials? Share your product category, grade, dimensions, and quantity for an prompt technical review.
+            <p className="text-base sm:text-lg text-white/90 leading-relaxed">
+              Have an upcoming project requisition or Bill of Materials? Share your product category, grade, dimensions, and quantity for a prompt technical review from our Chennai team.
             </p>
           </div>
         </div>
       </section>
 
       {/* Main 2-Column Content */}
-      <section className="py-16 sm:py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left 5 Cols: Contact Information Cards & Map Placeholder */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+            {/* Left 5 Cols: Contact Information Cards & Map */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-sm">
-                <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold text-navy-950">Corporate Sales Desk</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Direct technical communication</p>
-                  </div>
-                  <span className="text-[10px] font-mono font-bold bg-amber-50 text-industrial-amber px-2 py-0.5 rounded border border-amber-200">
-                    Demo Details
-                  </span>
+
+              {/* Main Contact Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                <div className="bg-[#0055A4] px-6 py-4">
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Building2 className="w-5 h-5 text-[#E3000F] bg-white rounded-full p-0.5" />
+                    Head Office & Site Office
+                  </h3>
                 </div>
 
-                <div className="space-y-4 text-xs sm:text-sm text-slate-700">
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-9 h-9 rounded-lg bg-steel-50 text-steel-700 flex items-center justify-center shrink-0 border border-steel-100">
-                      <Mail className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Email Inquiry</div>
-                      <a href="mailto:sales@example.com" className="text-steel-700 font-semibold hover:underline text-sm">
-                        sales@example.com
-                      </a>
-                      <div className="text-[11px] text-slate-400">Response within 24 hours</div>
-                    </div>
-                  </div>
+                <div className="p-6 space-y-6 text-sm text-slate-700">
 
+                  {/* H.O Address */}
                   <div className="flex items-start space-x-3.5">
-                    <div className="w-9 h-9 rounded-lg bg-steel-50 text-steel-700 flex items-center justify-center shrink-0 border border-steel-100">
-                      <Phone className="w-4 h-4" />
+                    <div className="w-10 h-10 rounded-full bg-red-50 text-[#E3000F] flex items-center justify-center shrink-0 border border-red-100">
+                      <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Phone / WhatsApp</div>
-                      <a href="tel:+910000000000" className="text-steel-700 font-semibold hover:underline text-sm">
-                        +91 00000 00000
-                      </a>
-                      <div className="text-[11px] text-slate-400">Configurable official client line</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-9 h-9 rounded-lg bg-steel-50 text-steel-700 flex items-center justify-center shrink-0 border border-steel-100">
-                      <MapPin className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Office & Warehouse Location</div>
-                      <div className="text-slate-800 font-semibold">
-                        Mumbai, Maharashtra, India
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Head Office (H.O)</div>
+                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
+                        No 25, Muthumari Chetty Street,<br />
+                        Chennai – 600 001.
                       </div>
-                      <div className="text-[11px] text-slate-400">Official registered address to be updated</div>
                     </div>
                   </div>
 
+                  {/* S.O Address */}
                   <div className="flex items-start space-x-3.5">
-                    <div className="w-9 h-9 rounded-lg bg-steel-50 text-steel-700 flex items-center justify-center shrink-0 border border-steel-100">
-                      <Clock className="w-4 h-4" />
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0055A4] flex items-center justify-center shrink-0 border border-blue-100">
+                      <Building2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Business Working Hours</div>
-                      <div className="text-slate-800 font-semibold">
-                        Monday to Saturday
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Site Office (S.O)</div>
+                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
+                        125, Linghi Chetty Street,<br />
+                        Chennai – 600 001.
                       </div>
-                      <div className="text-[11px] text-slate-400">Standard business operating hours</div>
                     </div>
                   </div>
-                </div>
 
-                {/* International Inquiries Support Note */}
-                <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
-                  <div className="font-bold text-navy-950 flex items-center space-x-1.5">
-                    <Globe2 className="w-4 h-4 text-industrial-amber" />
-                    <span>Global Export Inquiries</span>
+                  <hr className="border-slate-100" />
+
+                  {/* Email */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email Inquiry</div>
+                      <a href="mailto:steelindialtd@yahoo.com" className="text-[#0055A4] font-bold hover:underline text-[15px]">
+                        steelindialtd@yahoo.com
+                      </a>
+                    </div>
                   </div>
-                  <p>
-                    We welcome inquiries from international EPC contractors and stockists. Our commercial team assists with custom sea-worthy export crating, fumigation certificates, and consular invoice preparation.
-                  </p>
+
+                  {/* Phone */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Lines</div>
+                      <a href="tel:+914425228058" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
+                        +91 44 2522 8058
+                      </a>
+                      <a href="tel:+914423463810" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
+                        +91 44 2346 3810
+                      </a>
+                      <div className="text-slate-500 mt-1 font-medium">Mobile: <a href="tel:+919840425654" className="hover:text-[#E3000F]">+91 98404 25654</a></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Map Placeholder Card (Not embedding an incorrect address as instructed) */}
-              <div className="bg-slate-50 rounded-xl border border-slate-200 p-6 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                    Location Map Placeholder
+              {/* Branch Contacts Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <h4 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-4 flex items-center justify-between">
+                  <span>Our Branches</span>
+                  <Globe2 className="w-4 h-4 text-[#0055A4]" />
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* Anantapur */}
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <div className="text-[#E3000F] font-bold text-xs uppercase mb-1">Anantapur</div>
+                    <a href="tel:+917373535350" className="text-slate-700 text-sm font-medium hover:text-[#0055A4]">
+                      +91 73735 35350
+                    </a>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-mono">Interactive Map</span>
-                </div>
-                
-                <div className="h-44 rounded-lg bg-slate-200/80 border border-slate-300 flex flex-col items-center justify-center p-4 text-center space-y-2">
-                  <MapPin className="w-8 h-8 text-slate-400 animate-bounce" />
-                  <div className="text-xs font-bold text-slate-700">
-                    Google Maps Integration Placeholder
+                  {/* Bangalore */}
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <div className="text-[#E3000F] font-bold text-xs uppercase mb-1">Bangalore</div>
+                    <a href="tel:+918838854885" className="text-slate-700 text-sm font-medium hover:text-[#0055A4]">
+                      +91 88388 54885
+                    </a>
                   </div>
-                  <p className="text-[11px] text-slate-500 max-w-xs">
-                    This placeholder will embed the live Google Maps iframe once the client's official GPS coordinates and registered address are confirmed.
-                  </p>
+                  {/* Mumbai */}
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <div className="text-[#E3000F] font-bold text-xs uppercase mb-1">Mumbai</div>
+                    <a href="tel:+919820045251" className="text-slate-700 text-sm font-medium hover:text-[#0055A4]">
+                      +91 98200 45251
+                    </a>
+                  </div>
                 </div>
               </div>
+
+              {/* Map Placeholder Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-2 shadow-sm">
+                <div className="rounded-xl overflow-hidden h-64 border border-slate-100 relative group">
+                  <iframe
+                    title="Steel India Co. Chennai Location"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.1!2d80.2785!3d13.0937!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265d!2sLinghi%20Chetty%20Street%2C%20Sowcarpet%2C%20Chennai%2C%20Tamil%20Nadu%20600001!5e0!3m2!1sen!2sin!4v1"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+                <div className="p-3 flex items-center justify-between text-xs text-slate-500">
+                  <span>125, Linghi Chetty Street, Chennai</span>
+                  <a
+                    href="https://maps.google.com/?q=125+Linghi+Chetty+Street+Chennai+600001"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[#0055A4] hover:text-[#E3000F] font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Get Directions <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+
             </div>
 
             {/* Right 7 Cols: Complete Inquiry Form */}
-            <div className="lg:col-span-7">
-              <InquiryForm title="Project Inquiry & Quotation Request" />
+            <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-lg p-6 sm:p-8">
+              <div className="mb-6 border-b border-slate-100 pb-4">
+                <h2 className="text-2xl font-bold text-[#0055A4]">Project Inquiry Form</h2>
+                <p className="text-slate-500 text-sm mt-1">Fill out the details below and our team will get back to you within 24 hours.</p>
+              </div>
+
+              {/* Assuming InquiryForm component handles its own layout, we just wrap it properly */}
+              <InquiryForm title="" />
             </div>
+
           </div>
         </div>
       </section>

@@ -1,17 +1,18 @@
+// Industries served — verified from Steel India Co. (Chennai) Pvt. Ltd. catalogue
 export const industries = [
   {
     id: 'oil-gas',
-    name: 'Oil & Gas',
+    name: 'Oil & Gas Industries',
     image: '/images/ind-oil-gas.jpg'
   },
   {
     id: 'petrochemical',
-    name: 'Petrochemical',
+    name: 'Petrochemical Plants',
     image: '/images/ind-petrochemical.jpg'
   },
   {
     id: 'power',
-    name: 'Power',
+    name: 'Power Sectors',
     image: '/images/ind-power-gen.jpg'
   },
   {
@@ -20,18 +21,13 @@ export const industries = [
     image: '/images/ind-construction.jpg'
   },
   {
-    id: 'engineering ',
-    name: 'Engineering',
-    image: '/images/ind-engineering.jpg'
-  },
-  {
     id: 'water-treatment',
     name: 'Water Treatment',
     image: '/images/ind-water-treatment.jpg'
   },
   {
     id: 'pharma',
-    name: 'Pharma',
+    name: 'Pharmaceutics',
     image: '/images/ind-pharmaceutical.jpg'
   },
   {
@@ -41,7 +37,8 @@ export const industries = [
   },
   {
     id: 'automotive',
-    name: 'Automotive',
+    name: 'Automobile Industries',
     image: '/images/ind-automotive.jpg'
-  }
+  },
+
 ];

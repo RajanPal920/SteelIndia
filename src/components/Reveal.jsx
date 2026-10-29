@@ -48,7 +48,10 @@ export default function Reveal({ children, delay = 0, className = '' }) {
     <div
       ref={domRef}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`reveal-on-scroll ${isVisible ? 'is-visible' : ''} ${className}`}
+      className={`transition-all duration-700 ease-out will-change-transform ${isVisible
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-8'
+        } ${className}`}
     >
       {children}
     </div>
