@@ -281,7 +281,7 @@ export default function Home() {
       </section>
 
       {/* 5. Material Range Section (Continuous Left-to-Right Marquee) */}
-      <section className="py-16 sm:py-20 bg-slate-50 overflow-hidden" id="materials-section">
+      <section className="py-16 sm:py-20 bg-slate-50 overflow-hidden border-y border-slate-200" id="materials-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
             <div className="max-w-3xl mx-auto space-y-3">
@@ -306,15 +306,15 @@ export default function Home() {
           </Reveal>
         </div>
 
-        {/* Continuous Left-to-Right Marquee Track */}
+        {/* Continuous Right-to-Left Marquee Track */}
         <div className="mt-10 sm:mt-12 relative w-full overflow-hidden group">
 
-          {/* Subtle Left and Right Edge Gradient Masks - Changed to match slate-50 background */}
+          {/* Subtle Left and Right Edge Gradient Masks */}
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent z-10" />
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-slate-50 via-slate-50/90 to-transparent z-10" />
 
-          {/* Marquee Track Moving Left to Right */}
-          <div className="flex w-max animate-marquee-ltr hover:[animation-play-state:paused] py-4">
+          {/* Marquee Track - Changed to Right to Left (marquee-rtl) */}
+          <div className="flex w-max animate-marquee-rtl hover:[animation-play-state:paused] py-4">
 
             {/* Track 1 (All 15 Material Cards) */}
             <div className="flex shrink-0 items-stretch space-x-5 pr-5">
@@ -325,7 +325,7 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Track 2 (Clone for 100% gapless continuous left-to-right loop) */}
+            {/* Track 2 (Clone for 100% gapless loop) */}
             <div className="flex shrink-0 items-stretch space-x-5 pr-5" aria-hidden="true">
               {materials.map((material) => (
                 <div key={`m2-${material.id}`} className="w-[280px] sm:w-[320px] shrink-0 flex">
@@ -341,15 +341,15 @@ export default function Home() {
           {/* Live Status Indicator */}
           <div className="mt-3 flex items-center justify-center space-x-2 text-xs text-slate-500 font-medium">
             <span className="w-2 h-2 rounded-full bg-[#E3000F] animate-pulse"></span>
-            <span>Continuous Left-to-Right Stream &bull; Hover card to pause</span>
+            <span>Continuous Stream &bull; Hover card to pause</span>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - Shadow Removed */}
           <Reveal delay={200}>
             <div className="mt-8 sm:mt-10">
               <Link
                 to="/material"
-                className="group inline-flex items-center space-x-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-[#0055A4] hover:bg-[#003d7a] shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                className="group inline-flex items-center space-x-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-[#0055A4] hover:bg-[#003d7a] transition-colors duration-200"
               >
                 <span>Explore Complete Material Specifications</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
