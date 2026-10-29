@@ -183,29 +183,29 @@ export const products = [
       'Purity in chemical composition minimizing spatter during welding'
     ]
   },
-  {
-    id: 'dairy-pharma-fittings',
-    name: 'Dairy & Pharma Fittings',
-    tag: 'Sanitary Fittings',
-    shortDesc: 'Hygienic tri-clamp and SMS/DIN fittings with electro-polished sanitary finishes.',
-    longDesc: 'Ultra-hygienic stainless steel sanitary fittings, valves, and tube components certified for food processing, brewery, dairy, biotechnology, and sterile pharmaceutical installations.',
-    image: '/images/prod-dairy-pharma-fittings.jpg',
-    specs: {
-      standards: '3-A Sanitary Standards, ASME BPE, DIN 11851, SMS 1145, ISO 2852',
-      sizes: '1/2" OD to 6" OD',
-      connections: 'Tri-Clamp (TC), SMS Union, DIN Union, IDF, Bevel Seat, Welded',
-      surfaceRoughness: 'Ra < 0.4 µm (Mechanical Polish & Electro-Polish)',
-      items: 'Sanitary Clamps, TC Ferrules, TC Bends, TC Tees, Sight Glasses, Sampling Valves, End Caps'
-    },
-    materials: ['Stainless Steel 316L (Low Carbon Sanitary Grade)', 'Stainless Steel 304 / 304L', 'Hastelloy C22 (Special Sterile Applications)', 'FDA-compliant EPDM, Silicone, PTFE & Viton Gaskets'],
-    applications: ['Pharmaceutical Formulation Plants', 'Dairy Processing & Milk Chilling', 'Breweries & Beverage Bottling', 'Cosmetic Production'],
-    features: [
-      'Crevice-free sterile interior surfaces preventing bacterial colonization',
-      'Electro-polished surface Ra values measured and documented with profilometer reports',
-      'Quick disassembly tri-clamp design for clean-in-place (CIP) and steam-in-place (SIP)',
-      'Material test reports confirming delta ferrite content and sulfur limits'
-    ]
-  },
+  // {
+  //   id: 'dairy-pharma-fittings',
+  //   name: 'Dairy & Pharma Fittings',
+  //   tag: 'Sanitary Fittings',
+  //   shortDesc: 'Hygienic tri-clamp and SMS/DIN fittings with electro-polished sanitary finishes.',
+  //   longDesc: 'Ultra-hygienic stainless steel sanitary fittings, valves, and tube components certified for food processing, brewery, dairy, biotechnology, and sterile pharmaceutical installations.',
+  //   image: '/images/prod-dairy-pharma-fittings.jpg',
+  //   specs: {
+  //     standards: '3-A Sanitary Standards, ASME BPE, DIN 11851, SMS 1145, ISO 2852',
+  //     sizes: '1/2" OD to 6" OD',
+  //     connections: 'Tri-Clamp (TC), SMS Union, DIN Union, IDF, Bevel Seat, Welded',
+  //     surfaceRoughness: 'Ra < 0.4 µm (Mechanical Polish & Electro-Polish)',
+  //     items: 'Sanitary Clamps, TC Ferrules, TC Bends, TC Tees, Sight Glasses, Sampling Valves, End Caps'
+  //   },
+  //   materials: ['Stainless Steel 316L (Low Carbon Sanitary Grade)', 'Stainless Steel 304 / 304L', 'Hastelloy C22 (Special Sterile Applications)', 'FDA-compliant EPDM, Silicone, PTFE & Viton Gaskets'],
+  //   applications: ['Pharmaceutical Formulation Plants', 'Dairy Processing & Milk Chilling', 'Breweries & Beverage Bottling', 'Cosmetic Production'],
+  //   features: [
+  //     'Crevice-free sterile interior surfaces preventing bacterial colonization',
+  //     'Electro-polished surface Ra values measured and documented with profilometer reports',
+  //     'Quick disassembly tri-clamp design for clean-in-place (CIP) and steam-in-place (SIP)',
+  //     'Material test reports confirming delta ferrite content and sulfur limits'
+  //   ]
+  // },
   {
     id: 'hose-pipes',
     name: 'Hose Pipes',
@@ -400,7 +400,7 @@ export const products = [
     tag: 'Flow Control',
     shortDesc: 'Industrial ball, gate, globe, check, and butterfly valves in stainless and carbon steel.',
     longDesc: 'A comprehensive range of industrial valves for flow isolation, regulation, and control across process piping, oil and gas, chemical, and pharmaceutical systems. Available in cast and forged body construction across standard pressure classes.',
-    image: '/images/prod-flanges-fasteners.jpg',
+    image: '/images/prod-dairy-pharma-fittings.jpg',
     specs: {
       standards: 'API 600, API 602, API 608, ASME B16.34, BS 1868',
       sizes: '1/4" NB to 48" NB',
@@ -424,7 +424,7 @@ export const products = [
     tag: 'Anti-Slip Flooring',
     shortDesc: 'Hot rolled raised pattern chequered / tear-drop floor plates for anti-slip applications.',
     longDesc: 'Industrial chequered steel plates with raised tear-drop, diamond, or lentil raised patterns manufactured from hot rolled carbon steel and stainless steel. Widely used for flooring, staircase treads, platforms, and vehicle bodies.',
-    image: '/images/prod-sheets-plates.jpg',
+    image: '/images/prod-chequered-plates.jpg',
     specs: {
       standards: 'IS 3502, BS 4360, ASTM A786',
       thickness: '2.5mm to 12mm base metal thickness',

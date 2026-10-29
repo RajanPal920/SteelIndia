@@ -70,7 +70,15 @@ export default function Navbar() {
               title="Call Steel India Co."
             >
               <Phone className="w-3.5 h-3.5" />
-              <span>+91 44 2522 8058 / 2346 3810</span>
+              <span>+91 44 2522 8058 </span>
+            </a>
+            <a
+              href="tel:+914423463810"
+              className="flex items-center space-x-2 hover:text-[#E3000F] transition-colors font-medium"
+              title="Call Steel India Co."
+            >
+              <Phone className="w-3.5 h-3.5" />
+              <span>+91 44 2346 3810 </span>
             </a>
             <span className="text-white/30">|</span>
             <a

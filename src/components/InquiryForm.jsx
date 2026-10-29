@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { products } from '../data/products';
-import { materials } from '../data/materials';
-import { countries } from '../data/countries';
-import { Send, CheckCircle2, AlertCircle, RefreshCw, ShieldCheck } from 'lucide-react';
+import { Send, AlertCircle } from 'lucide-react';
 
 export default function InquiryForm({ defaultCategory = '', defaultMaterial = '', title = "Submit a Product Inquiry" }) {
   const [formData, setFormData] = useState({
@@ -10,7 +8,6 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
     companyName: '',
     email: '',
     phone: '',
-    country: '',
     productCategory: defaultCategory,
     materialGrade: defaultMaterial,
     dimensions: '',
@@ -19,8 +16,6 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
   });
 
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedData, setSubmittedData] = useState(null);
 
   const validate = () => {
     const errs = {};
@@ -28,11 +23,11 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
     if (!formData.email.trim()) {
       errs.email = 'Email address is required.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errs.email = 'Please enter a valid corporate email address.';
+      errs.email = 'Please enter a valid email address.';
     }
-    if (!formData.phone.trim()) errs.phone = 'Contact phone number is required.';
-    if (!formData.productCategory) errs.productCategory = 'Please select a product category.';
-    if (!formData.quantity.trim()) errs.quantity = 'Estimated quantity or tonnage is required.';
+    if (!formData.phone.trim()) errs.phone = 'Phone number is required.';
+    if (!formData.productCategory) errs.productCategory = 'Please select a product.';
+    if (!formData.quantity.trim()) errs.quantity = 'Quantity is required.';
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -50,94 +45,63 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
     e.preventDefault();
     if (!validate()) return;
 
-    setIsSubmitting(true);
+    // Email body format karein
+    const emailSubject = `New Inquiry: ${formData.productCategory} from ${formData.fullName}`;
+    const emailBody = `
+New Inquiry from Website
 
-    // Simulates network payload handling
+--- Contact Details ---
+Name: ${formData.fullName}
+Company: ${formData.companyName || 'N/A'}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+--- Product Details ---
+Product Category: ${formData.productCategory}
+Material/Grade: ${formData.materialGrade || 'N/A'}
+Dimensions: ${formData.dimensions || 'N/A'}
+Quantity: ${formData.quantity}
+
+--- Additional Notes ---
+${formData.message || 'No additional notes provided.'}
+    `;
+
+    // Mailto link create karein aur email client open karein
+    const mailtoLink = `mailto:steelindialtd@yahoo.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+    window.location.href = mailtoLink;
+
+    // Thodi der baad form reset kar dein (optional)
     setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmittedData({ ...formData });
-    }, 600);
+      setFormData({
+        fullName: '',
+        companyName: '',
+        email: '',
+        phone: '',
+        productCategory: '',
+        materialGrade: '',
+        dimensions: '',
+        quantity: '',
+        message: ''
+      });
+    }, 2000);
   };
 
-  const handleReset = () => {
-    setSubmittedData(null);
-    setFormData({
-      fullName: '',
-      companyName: '',
-      email: '',
-      phone: '',
-      country: '',
-      productCategory: '',
-      materialGrade: '',
-      dimensions: '',
-      quantity: '',
-      message: ''
-    });
-    setErrors({});
-  };
-
-  // --- SUCCESS STATE UI ---
-  if (submittedData) {
-    return (
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 text-center space-y-5 shadow-lg animate-in fade-in duration-300">
-        <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto border border-green-100">
-          <CheckCircle2 className="w-8 h-8" />
-        </div>
-
-        <h3 className="text-2xl font-bold text-[#0055A4]">Inquiry Received Successfully</h3>
-
-        <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-          Thank you, <span className="font-semibold text-slate-900">{submittedData.fullName}</span>. Your inquiry for{' '}
-          <span className="font-bold text-[#E3000F]">{submittedData.productCategory}</span> has been logged. Our commercial team will review your specifications and respond within 24 hours.
-        </p>
-
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 text-left text-xs font-mono space-y-2 max-w-md mx-auto text-slate-700 overflow-x-auto relative">
-          <div className="absolute top-0 right-0 bg-[#0055A4] text-white text-[10px] px-2 py-0.5 rounded-bl-lg">Reference</div>
-          <div><span className="text-slate-400">Company:</span> {submittedData.companyName || 'N/A'}</div>
-          <div><span className="text-slate-400">Email:</span> {submittedData.email}</div>
-          <div><span className="text-slate-400">Phone:</span> {submittedData.phone}</div>
-          <div><span className="text-slate-400">Product:</span> {submittedData.productCategory}</div>
-          <div><span className="text-slate-400">Grade:</span> {submittedData.materialGrade || 'Standard Grade'}</div>
-          <div><span className="text-slate-400">Dimensions:</span> {submittedData.dimensions || 'Standard'}</div>
-          <div><span className="text-slate-400">Quantity:</span> {submittedData.quantity}</div>
-        </div>
-
-        <div className="text-[11px] text-slate-500 italic max-w-md mx-auto">
-          Note: This website is in demonstration mode. No live email has been transmitted to a live server. Replace this handler with your API or CRM endpoint before official release.
-        </div>
-
-        <button
-          type="button"
-          onClick={handleReset}
-          className="inline-flex items-center space-x-1.5 px-6 py-2.5 rounded-lg bg-[#0055A4] hover:bg-[#003d7a] text-white text-sm font-semibold shadow transition-colors"
-        >
-          <RefreshCw className="w-4 h-4" />
-          <span>Submit Another Inquiry</span>
-        </button>
-      </div>
-    );
-  }
-
-  // --- FORM INPUT UI ---
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-lg space-y-6 text-left">
+    <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5 text-left">
 
       {/* Form Header */}
-      <div className="border-b border-slate-100 pb-4">
-        <h3 className="text-xl font-bold text-[#0055A4] flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#E3000F]" />
-          {title}
-        </h3>
-        <p className="text-xs text-slate-500 mt-1">
-          Please provide required dimensions, material grade, and estimated quantities for accurate quotation.
-        </p>
+      <div className="border-b border-slate-100 pb-3">
+        <h3 className="text-xl font-bold text-[#0055A4]">{title}</h3>
+        <p className="text-xs text-slate-500 mt-1">Fill this form to send us your requirement directly to our email.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
         {/* Full Name */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="fullName">
-            Full Name <span className="text-[#E3000F]">*</span>
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="fullName">
+            Full Name <span className="text-red-500">*</span>
           </label>
           <input
             id="fullName"
@@ -145,16 +109,15 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="text"
             value={formData.fullName}
             onChange={handleChange}
-            placeholder="e.g. John Doe"
-            className={`w-full px-4 py-2.5 text-sm rounded-lg border ${errors.fullName ? 'border-[#E3000F] bg-red-50/20' : 'border-slate-300'
-              } focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all`}
+            placeholder="John Doe"
+            className={`w-full px-3 py-2 text-sm rounded-md border ${errors.fullName ? 'border-red-500' : 'border-slate-300'} focus:outline-none focus:border-[#0055A4]`}
           />
-          {errors.fullName && <p className="text-[11px] text-[#E3000F] mt-1">{errors.fullName}</p>}
+          {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>}
         </div>
 
         {/* Company Name */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="companyName">
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="companyName">
             Company Name
           </label>
           <input
@@ -163,15 +126,15 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="text"
             value={formData.companyName}
             onChange={handleChange}
-            placeholder="e.g. Acme Piping Ltd."
-            className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all"
+            placeholder="Acme Piping Ltd."
+            className="w-full px-3 py-2 text-sm rounded-md border border-slate-300 focus:outline-none focus:border-[#0055A4]"
           />
         </div>
 
-        {/* Email Address */}
+        {/* Email */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="email">
-            Email Address <span className="text-[#E3000F]">*</span>
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="email">
+            Email <span className="text-red-500">*</span>
           </label>
           <input
             id="email"
@@ -179,17 +142,16 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="procurement@company.com"
-            className={`w-full px-4 py-2.5 text-sm rounded-lg border ${errors.email ? 'border-[#E3000F] bg-red-50/20' : 'border-slate-300'
-              } focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all`}
+            placeholder="john@company.com"
+            className={`w-full px-3 py-2 text-sm rounded-md border ${errors.email ? 'border-red-500' : 'border-slate-300'} focus:outline-none focus:border-[#0055A4]`}
           />
-          {errors.email && <p className="text-[11px] text-[#E3000F] mt-1">{errors.email}</p>}
+          {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
         </div>
 
-        {/* Phone Number */}
+        {/* Phone */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="phone">
-            Phone / Mobile <span className="text-[#E3000F]">*</span>
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="phone">
+            Phone <span className="text-red-500">*</span>
           </label>
           <input
             id="phone"
@@ -198,61 +160,35 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             value={formData.phone}
             onChange={handleChange}
             placeholder="+91 98765 43210"
-            className={`w-full px-4 py-2.5 text-sm rounded-lg border ${errors.phone ? 'border-[#E3000F] bg-red-50/20' : 'border-slate-300'
-              } focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all`}
+            className={`w-full px-3 py-2 text-sm rounded-md border ${errors.phone ? 'border-red-500' : 'border-slate-300'} focus:outline-none focus:border-[#0055A4]`}
           />
-          {errors.phone && <p className="text-[11px] text-[#E3000F] mt-1">{errors.phone}</p>}
-        </div>
-
-        {/* Country */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="country">
-            Destination Country / Region
-          </label>
-          <select
-            id="country"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all"
-          >
-            <option value="">Select Target Country</option>
-            {countries.map((c) => (
-              <option key={c.code} value={c.name}>
-                {c.name}
-              </option>
-            ))}
-            <option value="Other">Other Global Location</option>
-          </select>
+          {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
         </div>
 
         {/* Product Category */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="productCategory">
-            Product Category <span className="text-[#E3000F]">*</span>
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="productCategory">
+            Product Category <span className="text-red-500">*</span>
           </label>
           <select
             id="productCategory"
             name="productCategory"
             value={formData.productCategory}
             onChange={handleChange}
-            className={`w-full px-4 py-2.5 text-sm rounded-lg border ${errors.productCategory ? 'border-[#E3000F] bg-red-50/20' : 'border-slate-300'
-              } bg-white focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all`}
+            className={`w-full px-3 py-2 text-sm rounded-md border ${errors.productCategory ? 'border-red-500' : 'border-slate-300'} bg-white focus:outline-none focus:border-[#0055A4]`}
           >
-            <option value="">Select One of 17 Categories</option>
+            <option value="">Select Product</option>
             {products.map((p) => (
-              <option key={p.id} value={p.name}>
-                {p.name}
-              </option>
+              <option key={p.id} value={p.name}>{p.name}</option>
             ))}
           </select>
-          {errors.productCategory && <p className="text-[11px] text-[#E3000F] mt-1">{errors.productCategory}</p>}
+          {errors.productCategory && <p className="text-xs text-red-500 mt-1">{errors.productCategory}</p>}
         </div>
 
-        {/* Material / Grade */}
+        {/* Material Grade */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="materialGrade">
-            Material Family / Grade
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="materialGrade">
+            Material / Grade
           </label>
           <input
             id="materialGrade"
@@ -260,15 +196,15 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="text"
             value={formData.materialGrade}
             onChange={handleChange}
-            placeholder="e.g. SS 316L, Duplex 2205, Inconel 625"
-            className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all"
+            placeholder="SS 316L, Duplex 2205"
+            className="w-full px-3 py-2 text-sm rounded-md border border-slate-300 focus:outline-none focus:border-[#0055A4]"
           />
         </div>
 
-        {/* Dimensions / Size */}
+        {/* Dimensions */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="dimensions">
-            Required Size / Dimensions
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="dimensions">
+            Size / Dimensions
           </label>
           <input
             id="dimensions"
@@ -276,15 +212,15 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="text"
             value={formData.dimensions}
             onChange={handleChange}
-            placeholder="e.g. 4 inch NB SCH 40, or 2000x6000x12mm"
-            className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all"
+            placeholder="4 inch NB SCH 40"
+            className="w-full px-3 py-2 text-sm rounded-md border border-slate-300 focus:outline-none focus:border-[#0055A4]"
           />
         </div>
 
         {/* Quantity */}
-        <div className="sm:col-span-2">
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="quantity">
-            Estimated Quantity / Tonnage <span className="text-[#E3000F]">*</span>
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="quantity">
+            Quantity <span className="text-red-500">*</span>
           </label>
           <input
             id="quantity"
@@ -292,56 +228,45 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
             type="text"
             value={formData.quantity}
             onChange={handleChange}
-            placeholder="e.g. 500 meters, 5 metric tons, or 250 pieces"
-            className={`w-full px-4 py-2.5 text-sm rounded-lg border ${errors.quantity ? 'border-[#E3000F] bg-red-50/20' : 'border-slate-300'
-              } focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all`}
+            placeholder="500 meters / 5 tons"
+            className={`w-full px-3 py-2 text-sm rounded-md border ${errors.quantity ? 'border-red-500' : 'border-slate-300'} focus:outline-none focus:border-[#0055A4]`}
           />
-          {errors.quantity && <p className="text-[11px] text-[#E3000F] mt-1">{errors.quantity}</p>}
+          {errors.quantity && <p className="text-xs text-red-500 mt-1">{errors.quantity}</p>}
         </div>
 
         {/* Message */}
         <div className="sm:col-span-2">
-          <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="message">
-            Specific Testing, Standards & Packaging Notes
+          <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="message">
+            Additional Notes / Testing Requirements
           </label>
           <textarea
             id="message"
             name="message"
-            rows="4"
+            rows="3"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Mention ASTM/ASME standards, EN 10204 3.1 MTC requirement, bevel ends, third-party inspection, or target delivery timeframe..."
-            className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0055A4] focus:border-[#0055A4] transition-all resize-none"
+            placeholder="Mention ASTM standards, MTC requirements, delivery timeframe..."
+            className="w-full px-3 py-2 text-sm rounded-md border border-slate-300 focus:outline-none focus:border-[#0055A4] resize-none"
           />
         </div>
       </div>
 
-      {/* Privacy Notice */}
-      <div className="flex items-start space-x-2 text-[11px] text-slate-500 pt-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+      {/* Info Notice */}
+      <div className="flex items-start space-x-2 text-xs text-slate-500 bg-slate-50 p-3 rounded-md border border-slate-200">
         <AlertCircle className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
         <p>
-          <span className="font-bold text-slate-700">Privacy Notice:</span> Inquiry data submitted via this form will be treated confidentially for quotation purposes only and will not be shared with unauthorized third parties.
+          Clicking <strong>Submit</strong> will open your email app (like Gmail/Outlook) with all details pre-filled. You just need to hit Send.
         </p>
       </div>
 
       {/* Submit Button */}
-      <div className="pt-2">
+      <div>
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full inline-flex items-center justify-center px-8 py-3.5 rounded-lg text-sm font-bold text-white bg-[#E3000F] hover:bg-[#C2000D] shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed group"
+          className="w-full inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-bold text-white bg-[#E3000F] hover:bg-[#C2000D] transition-colors"
         >
-          {isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 animate-spin" />
-              Processing Inquiry...
-            </span>
-          ) : (
-            <>
-              <span>Submit Inquiry</span>
-              <Send className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-            </>
-          )}
+          <span>Send Inquiry via Email</span>
+          <Send className="w-4 h-4 ml-2" />
         </button>
       </div>
     </form>

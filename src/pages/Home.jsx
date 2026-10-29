@@ -268,7 +268,7 @@ export default function Home() {
                   All certificates, test dossiers, and documentation are reviewed based on mutual project agreement.
                 </span>
                 <Link
-                  to="/certificate"
+                  to="/contact"
                   className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg text-sm font-bold text-white bg-[#0055A4] hover:bg-[#003d7a] shadow-sm transition-all duration-200 group"
                 >
                   <span>Discuss Your Requirements</span>
