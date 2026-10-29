@@ -40,12 +40,28 @@ export default {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       animation: {
+        // Purani marquee (LTR - Left to Right)
         marquee: 'marquee 30s linear infinite',
+        // Naya marquee RTL (Right to Left) - Material Section ke liye
+        'marquee-rtl': 'marquee-rtl 40s linear infinite',
+        // Naya marquee LTR (Left to Right) - Marquee component ke liye
+        'marquee-ltr': 'marquee-ltr 30s linear infinite',
       },
       keyframes: {
+        // Purana LTR (Left to Right)
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        // Naya RTL (Right to Left) - Cards right se left move karenge
+        'marquee-rtl': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        // Naya LTR (Left to Right) - Cards left se right move karenge
+        'marquee-ltr': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0%)' },
         }
       }
     },
