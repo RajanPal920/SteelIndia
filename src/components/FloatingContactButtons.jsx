@@ -4,7 +4,7 @@ import { Phone, MessageCircle, X } from 'lucide-react';
 // Client-configurable contact parameters
 export const CONTACT_CONFIG = {
   // Official mobile number: 9840425654
-  whatsappNumber: '919840425654',
+  whatsappNumber: '919322195162',
   // Official tel link
   telNumber: '+919840425654',
   defaultWhatsappMessage: 'Hello Steel India Co. (Chennai) Pvt. Ltd. team, I would like to inquire about steel products and material specifications for an upcoming project.',
@@ -45,7 +45,7 @@ export default function FloatingContactButtons() {
           onMouseEnter={() => setShowDemoTip(true)}
           className="group flex items-center justify-center bg-[#25D366] hover:bg-[#1DA851] text-white p-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 border-white/20 focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2"
           aria-label="Chat on WhatsApp"
-          title="WhatsApp: +91 98404 25654"
+          title="WhatsApp: +91 9322195162"
         >
           {/* Custom crisp SVG WhatsApp Icon */}
           <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
