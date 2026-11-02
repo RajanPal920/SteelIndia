@@ -14,13 +14,13 @@ export default function MaterialCard({ material, className = '' }) {
       {/* Top Red Accent Line */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
-      {/* Image Area - STRICT object-cover, overflow-hidden */}
+      {/* Image Area - STRICT object-cover, overflow-hidden and bg-white */}
       {material.image && (
-        <div className="relative h-44 w-full bg-slate-100 overflow-hidden shrink-0">
+        <div className="relative h-44 w-full bg-white overflow-hidden shrink-0">
           <img
             src={material.image}
             alt={`${material.name} ${seoSuffix}`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
             loading="lazy"
           />
           <div className="absolute top-3 left-3">

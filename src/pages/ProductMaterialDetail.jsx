@@ -133,16 +133,16 @@ export default function ProductMaterialDetail() {
 
             {/* Right Image Container - strict object-cover, overflow-hidden */}
             <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
-              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-lg relative group">
+              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-lg relative group">
                 {item.image ? (
                   <img
                     src={item.image}
                     alt={`${item.title} in ${material.name}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                     loading="lazy"
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400 p-6 text-center">
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-white text-slate-400 p-6 text-center">
                     <Box className="w-12 h-12 text-slate-300 mb-2 stroke-1" />
                     <span className="text-xs font-bold text-slate-600 line-clamp-1">{item.title}</span>
                     <span className="text-[11px] text-slate-400 mt-1 uppercase tracking-wider font-semibold">Image to be added</span>
@@ -514,9 +514,9 @@ export default function ProductMaterialDetail() {
                           to={getProductMaterialUrl(material.id, rel)}
                           className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all group"
                         >
-                          <div className="w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-lg bg-white overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center">
                             {rel.image ? (
-                              <img src={rel.image} alt={rel.title} className="w-full h-full object-cover" />
+                              <img src={rel.image} alt={rel.title} className="w-full h-full object-cover bg-white" />
                             ) : (
                               <Box className="w-5 h-5 text-slate-300 stroke-1" />
                             )}

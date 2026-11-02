@@ -45,11 +45,11 @@ export default function About() {
 
             {/* Left Image Showcase */}
             <div className="lg:col-span-5 relative">
-              <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 aspect-[4/5] bg-slate-100 relative group">
+              <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 aspect-[4/5] bg-white relative group">
                 <img
                   src="/images/about-showcase.jpg"
                   alt="Steel India Co. industrial steel pipes and fittings inventory"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-white"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6">

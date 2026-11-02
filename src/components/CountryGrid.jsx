@@ -98,12 +98,12 @@ export default function CountryGrid() {
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                 {/* Flag Frame */}
-                <div className="w-11 h-7.5 sm:w-12 sm:h-8 rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-slate-100 shrink-0 flex items-center justify-center">
+                <div className="w-11 h-7.5 sm:w-12 sm:h-8 rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white shrink-0 flex items-center justify-center">
                   {!hasError ? (
                     <img
                       src={`https://flagcdn.com/w160/${country.code}.png`}
                       alt={`${country.name} flag`}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 bg-white"
                       loading="lazy"
                       onError={() => handleImageError(country.code)}
                     />

@@ -127,11 +127,11 @@ export default function ProductCategory() {
 
             {/* Right Image Container - strict object-cover, fixed aspect ratio, overflow-hidden */}
             <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
-              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-lg relative group">
+              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-lg relative group">
                 <img
                   src={activeImage}
                   alt={`${productType.name} ${seoSuffix}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                   loading="lazy"
                 />
                 <div className="absolute top-4 left-4 bg-[#0055A4] text-white text-[11px] font-bold px-3 py-1 rounded-md shadow-sm">
@@ -149,7 +149,7 @@ export default function ProductCategory() {
                     className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === productType.image ? 'border-[#0055A4] shadow-sm ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
                     title="Product Type View"
                   >
-                    <img src={productType.image} alt={productType.name} className="w-full h-full object-cover" />
+                    <img src={productType.image} alt={productType.name} className="w-full h-full object-cover bg-white" />
                   </button>
                   <button
                     type="button"
@@ -157,7 +157,7 @@ export default function ProductCategory() {
                     className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === productCategory.image ? 'border-[#0055A4] shadow-sm ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
                     title="Category View (as shown on main page)"
                   >
-                    <img src={productCategory.image} alt={productCategory.name} className="w-full h-full object-cover" />
+                    <img src={productCategory.image} alt={productCategory.name} className="w-full h-full object-cover bg-white" />
                   </button>
                   <span className="text-[10px] text-slate-500 font-sans">
                     {activeImage === productCategory.image ? 'Category Reference' : 'Product Type'}
@@ -358,11 +358,11 @@ export default function ProductCategory() {
                           to={getProductTypeUrl(productCategory.id, rt.id)}
                           className="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100 hover:border-[#0055A4] hover:bg-blue-50 transition-colors group"
                         >
-                          <div className="w-12 h-12 shrink-0 rounded-md bg-slate-100 overflow-hidden">
+                          <div className="w-12 h-12 shrink-0 rounded-md bg-white overflow-hidden">
                             <img
                               src={rt.image || productCategory.image}
                               alt={rt.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform bg-white"
                             />
                           </div>
                           <div className="min-w-0 flex-1">

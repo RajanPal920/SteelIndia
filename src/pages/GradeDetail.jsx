@@ -142,11 +142,11 @@ export default function GradeDetail() {
 
             {/* Right Image Container - Strict object-cover, fixed aspect ratio */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-xl relative group">
+              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-xl relative group">
                 <img
                   src={featuredImage}
                   alt={`${grade.name} - Steel India Co.`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                   loading="lazy"
                 />
                 <div className="absolute top-4 left-4 bg-[#0055A4] text-white text-[11px] font-bold px-3 py-1 rounded-md shadow-sm">
@@ -361,16 +361,16 @@ export default function GradeDetail() {
                     <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
                     {/* Image Area with strict object-cover */}
-                    <div className="relative h-48 bg-slate-100 overflow-hidden">
+                    <div className="relative h-48 bg-white overflow-hidden">
                       {pItem.image ? (
                         <img
                           src={pItem.image}
                           alt={`${pItem.title} - ${grade.grade}`}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 text-slate-400 p-4 text-center">
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-white text-slate-400 p-4 text-center">
                           <Box className="w-8 h-8 text-slate-300 mb-1" />
                           <span className="text-[11px] font-bold text-slate-500 line-clamp-1">{pItem.title}</span>
                         </div>

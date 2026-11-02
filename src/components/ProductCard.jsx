@@ -16,11 +16,11 @@ export default function ProductCard({ product, variant = 'standard', index = nul
         to={categoryUrl}
         className="group relative bg-white rounded-xl border border-slate-300 hover:border-[#0055A4] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col lg:flex-row h-full text-left"
       >
-        <div className="relative w-full lg:w-[42%] aspect-[4/3] lg:aspect-auto min-h-[220px] bg-slate-100 overflow-hidden shrink-0">
+        <div className="relative w-full lg:w-[42%] aspect-[4/3] lg:aspect-auto min-h-[220px] bg-white overflow-hidden shrink-0">
           <img
             src={product.image}
             alt={`${product.name} ${seoSuffix}`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
             loading="lazy"
           />
         </div>
@@ -60,12 +60,12 @@ export default function ProductCard({ product, variant = 'standard', index = nul
       {/* Top Red Accent Bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
-      {/* Image Area with object-cover */}
-      <div className="relative h-52 bg-slate-100 overflow-hidden">
+      {/* Image Area with object-cover and bg-white */}
+      <div className="relative h-52 bg-white overflow-hidden">
         <img
           src={product.image}
           alt={`${product.name} ${seoSuffix}`}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
           loading="lazy"
         />
 

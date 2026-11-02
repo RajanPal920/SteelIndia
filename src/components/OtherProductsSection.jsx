@@ -104,12 +104,12 @@ export default function OtherProductsSection({
                 {/* Top Animated Red Accent Bar */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-20" />
 
-                {/* Fixed Aspect Ratio Image Area (16:10) with strict object-cover */}
-                <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden shrink-0">
+                {/* Fixed Aspect Ratio Image Area (16:10) with strict object-cover and bg-white */}
+                <div className="relative aspect-[16/10] bg-white overflow-hidden shrink-0">
                   <img
                     src={p.image}
                     alt={`${p.name} ${seoSuffix}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                     loading="lazy"
                   />
 

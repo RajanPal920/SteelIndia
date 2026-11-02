@@ -66,7 +66,7 @@ export default function Home() {
                   <img
                     src="/images/about-showcase.jpg"
                     alt="Steel India Co. Chennai - Industrial steel pipes, flanges and fittings warehouse"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-white"
                     loading="lazy"
                   />
                   {/* Subtle overlay for text readability if needed, kept clean here */}

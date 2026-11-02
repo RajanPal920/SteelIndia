@@ -9,13 +9,13 @@ export default function IndustryCard({
   return (
     <div
       // Changed to w-full so it fits the grid cell perfectly
-      className={`group relative w-full ${heightClass} rounded-xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left select-none bg-slate-100 ${className}`}
+      className={`group relative w-full ${heightClass} rounded-xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left select-none bg-white ${className}`}
       aria-label={`Steel solutions for ${industry.name}`}
     >
       <img
         src={industry.image}
         alt={`${industry.name} industrial infrastructure and applications`}
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 bg-white"
         loading="lazy"
       />
 

@@ -118,7 +118,7 @@ export default function MaterialCategory() {
                   <img
                     src={material.image}
                     alt={`${material.name} ${seoSuffix}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                   />
                   <div className="absolute top-4 left-4 bg-white/95 text-[#0055A4] text-[11px] font-bold px-3 py-1 rounded shadow-sm">
                     CERTIFIED MATERIAL FAMILY
@@ -258,16 +258,16 @@ export default function MaterialCategory() {
                     <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
                     {/* Image Area with object-cover */}
-                    <div className="relative h-52 bg-slate-100 overflow-hidden">
+                    <div className="relative h-52 bg-white overflow-hidden">
                       {item.image ? (
                         <img
                           src={item.image}
                           alt={`${item.title} in ${material.name}`}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 text-slate-400 p-4 text-center">
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-white text-slate-400 p-4 text-center">
                           <Box className="w-9 h-9 text-slate-300 mb-1.5 stroke-1" />
                           <span className="text-[11px] font-bold text-slate-500 line-clamp-1">{item.title}</span>
                           <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Image to be added</span>

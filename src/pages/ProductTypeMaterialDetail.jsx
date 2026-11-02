@@ -140,11 +140,11 @@ export default function ProductTypeMaterialDetail() {
 
             {/* Right Image Container - strict object-cover, fixed aspect ratio, overflow-hidden */}
             <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
-              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-lg relative group">
+              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-lg relative group">
                 <img
                   src={activeImage}
                   alt={`${pageTitle} ${seoSuffix}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                   loading="lazy"
                 />
                 <div className="absolute top-4 left-4 bg-[#0055A4] text-white text-[11px] font-bold px-3 py-1 rounded-md shadow-sm">
@@ -162,7 +162,7 @@ export default function ProductTypeMaterialDetail() {
                     className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === image ? 'border-[#0055A4] ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
                     title="Specific Combination View"
                   >
-                    <img src={image} alt="Combination" className="w-full h-full object-cover" />
+                    <img src={image} alt="Combination" className="w-full h-full object-cover bg-white" />
                   </button>
                 )}
                 {productCategory.image && (
@@ -172,7 +172,7 @@ export default function ProductTypeMaterialDetail() {
                     className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === productCategory.image ? 'border-[#0055A4] ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
                     title="Main Category View (from main page)"
                   >
-                    <img src={productCategory.image} alt={productCategory.name} className="w-full h-full object-cover" />
+                    <img src={productCategory.image} alt={productCategory.name} className="w-full h-full object-cover bg-white" />
                   </button>
                 )}
                 {selectedMaterial.image && (
@@ -182,7 +182,7 @@ export default function ProductTypeMaterialDetail() {
                     className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === selectedMaterial.image ? 'border-[#0055A4] ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
                     title="Material Family View (from main page)"
                   >
-                    <img src={selectedMaterial.image} alt={selectedMaterial.name} className="w-full h-full object-cover" />
+                    <img src={selectedMaterial.image} alt={selectedMaterial.name} className="w-full h-full object-cover bg-white" />
                   </button>
                 )}
               </div>

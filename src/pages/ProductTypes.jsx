@@ -99,7 +99,7 @@ export default function ProductTypes() {
                 <img
                   src={product.image}
                   alt={`${product.name} ${seoSuffix}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                 />
                 <div className="absolute top-4 left-4 bg-white/95 text-[#0055A4] text-[11px] font-bold px-3 py-1 rounded shadow-sm">
                   OFFICIAL CATALOGUE SPECIFICATION
@@ -188,11 +188,11 @@ export default function ProductTypes() {
                     <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
 
                     {/* Image Area with strict object-cover and fixed container */}
-                    <div className="relative h-48 bg-slate-100 overflow-hidden shrink-0">
+                    <div className="relative h-48 bg-white overflow-hidden shrink-0">
                       <img
                         src={type.image || product.image}
                         alt={type.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 bg-white"
                         loading="lazy"
                       />
                       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-[#0055A4] p-1.5 rounded-lg shadow-sm">
