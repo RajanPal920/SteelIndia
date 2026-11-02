@@ -51,14 +51,14 @@ export default function Footer() {
                 <ShieldCheck className="w-5 h-5 text-white" />
                 <div className="text-xs">
                   <div className="font-bold text-white">MTC EN 10204 3.1</div>
-                  <div className="text-white/70">Certified Documentation</div>
+                  <div className="text-white">Certified Documentation</div>
                 </div>
               </div>
               <div className="flex items-center space-x-2 bg-black/10 px-4 py-2 rounded-lg border border-white/20">
                 <CheckCircle2 className="w-5 h-5 text-white" />
                 <div className="text-xs">
                   <div className="font-bold text-white">ISO 9001:2015</div>
-                  <div className="text-white/70">Quality Assured</div>
+                  <div className="text-white">Quality Assured</div>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ export default function Footer() {
               <h4 className="text-sm font-bold text-white uppercase tracking-widest border-l-4 border-white pl-3">
                 Company Profile
               </h4>
-              <p className="text-sm text-white/90 leading-relaxed font-medium">
+              <p className="text-sm text-white leading-relaxed font-medium">
                 Since 1990, Steel India Co. (Chennai) Pvt. Ltd. has been a leading manufacturer, importer, dealer, supplier, and stockist of Stainless Steel, Carbon Steel, and Mild Steel products.
               </p>
 
@@ -105,9 +105,9 @@ export default function Footer() {
                   <li key={p.id}>
                     <Link
                       to={getCategoryUrl(p.id)}
-                      className="text-white/80 hover:text-white transition-colors flex items-center group font-medium"
+                      className="text-white hover:underline transition-colors flex items-center group font-medium"
                     >
-                      <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white mr-1.5 transition-transform group-hover:translate-x-1" />
+                      <ChevronRight className="w-3.5 h-3.5 text-white mr-1.5 transition-transform group-hover:translate-x-1" />
                       <span>{p.name}</span>
                     </Link>
                   </li>
@@ -130,9 +130,9 @@ export default function Footer() {
                   <li key={m.id}>
                     <Link
                       to={getMaterialUrl(m.id)}
-                      className="text-white/80 hover:text-white transition-colors flex items-center group font-medium"
+                      className="text-white hover:underline transition-colors flex items-center group font-medium"
                     >
-                      <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white mr-1.5 transition-transform group-hover:translate-x-1" />
+                      <ChevronRight className="w-3.5 h-3.5 text-white mr-1.5 transition-transform group-hover:translate-x-1" />
                       <span>{m.name}</span>
                     </Link>
                   </li>
@@ -150,13 +150,13 @@ export default function Footer() {
               <h4 className="text-sm font-bold text-white uppercase tracking-widest border-l-4 border-white pl-3">
                 Contact Desk
               </h4>
-              <ul className="space-y-4 text-sm text-white/90">
+              <ul className="space-y-4 text-sm text-white">
                 {/* Email */}
                 <li className="flex items-start">
                   <Mail className="w-4 h-4 text-white mr-3 mt-1 shrink-0" />
                   <div>
-                    <div className="text-[10px] font-bold text-white/60 uppercase tracking-wider mb-0.5">Email</div>
-                    <a href="mailto:steelindialtd@yahoo.com" className="hover:text-white transition-colors block font-medium">
+                    <div className="text-[10px] font-bold text-white uppercase tracking-wider mb-0.5">Email</div>
+                    <a href="mailto:steelindialtd@yahoo.com" className="text-white hover:underline transition-colors block font-medium">
                       steelindialtd@yahoo.com
                     </a>
                   </div>
@@ -165,11 +165,11 @@ export default function Footer() {
                 <li className="flex items-start">
                   <Phone className="w-4 h-4 text-white mr-3 mt-1 shrink-0" />
                   <div>
-                    <div className="text-[10px] font-bold text-white/60 uppercase tracking-wider mb-0.5">Phone</div>
-                    <a href="tel:+914425228058" className="hover:text-white transition-colors block font-medium">
+                    <div className="text-[10px] font-bold text-white uppercase tracking-wider mb-0.5">Phone</div>
+                    <a href="tel:+914425228058" className="text-white hover:underline transition-colors block font-medium">
                       +91 44 2522 8058
                     </a>
-                    <a href="tel:+919840425654" className="hover:text-white transition-colors block font-medium">
+                    <a href="tel:+919840425654" className="text-white hover:underline transition-colors block font-medium">
                       +91 98404 25654
                     </a>
                   </div>
@@ -178,8 +178,8 @@ export default function Footer() {
                 <li className="flex items-start">
                   <MapPin className="w-4 h-4 text-white mr-3 mt-1 shrink-0" />
                   <div>
-                    <div className="text-[10px] font-bold text-white/60 uppercase tracking-wider mb-0.5">Location</div>
-                    <span className="block leading-relaxed font-medium">
+                    <div className="text-[10px] font-bold text-white uppercase tracking-wider mb-0.5">Location</div>
+                    <span className="block leading-relaxed font-medium text-white">
                       125, Linghi Chetty Street,<br />
                       Chennai – 600 001.
                     </span>
@@ -218,7 +218,7 @@ export default function Footer() {
                 <Link
                   key={idx}
                   to={g.url}
-                  className="bg-white/10 hover:bg-[#0055A4] text-white/90 hover:text-white px-2.5 py-1 rounded text-[11px] font-mono transition-colors border border-white/10"
+                  className="bg-white/10 hover:bg-[#0055A4] text-white px-2.5 py-1 rounded text-[11px] font-mono transition-colors border border-white/20"
                 >
                   {g.name}
                 </Link>
@@ -229,19 +229,19 @@ export default function Footer() {
 
         {/* Bottom Footer Strip */}
         <div className="bg-black/20 border-t border-white/20 py-5 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/80">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white">
             <div>
-              &copy; {currentYear} Steel India Co. (Chennai) Pvt. Ltd. All Rights Reserved | Design by <a href="https://sunmargindia.com" target="_blank" rel="noreferrer" className="text-white hover:underline transition-colors font-bold">sunmargindia</a>
+              &copy; {currentYear} Steel India Co. (Chennai) Pvt. Ltd. All Rights Reserved | Design & SEO by <a href="https://sunmargindia.com" target="_blank" rel="noreferrer" className="text-white hover:underline transition-colors font-bold">sunmargindia</a>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              <button onClick={() => setModalType('privacy')} className="hover:text-white transition-colors font-medium">Privacy Policy</button>
-              <span className="text-white/30">|</span>
-              <button onClick={() => setModalType('terms')} className="hover:text-white transition-colors font-medium">Terms & Conditions</button>
-              <span className="text-white/30">|</span>
+              <button onClick={() => setModalType('privacy')} className="text-white hover:underline transition-colors font-medium">Privacy Policy</button>
+              <span className="text-white/40">|</span>
+              <button onClick={() => setModalType('terms')} className="text-white hover:underline transition-colors font-medium">Terms & Conditions</button>
+              <span className="text-white/40">|</span>
               <button
                 onClick={scrollToTop}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-black/20 hover:bg-[#0055A4] text-white rounded transition-colors font-bold border border-white/10"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-black/20 hover:bg-[#0055A4] text-white rounded transition-colors font-bold border border-white/20"
               >
                 Back to Top <ArrowUp className="w-3.5 h-3.5" />
               </button>

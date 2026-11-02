@@ -57,7 +57,7 @@ export default function Navbar() {
   const activeLinkClass = ({ isActive }) =>
     isActive
       ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1 inline-block'
-      : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1 inline-block';
+      : 'text-slate-700 hover:text-[#0055A4] font-bold transition-colors pb-1 inline-block';
 
   return (
     <>
@@ -128,21 +128,20 @@ export default function Navbar() {
       </div>
 
       {/* Main Sticky Navbar */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm" ref={dropdownRef}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-26">
+      <header className="sticky font-bold top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm" ref={dropdownRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+          <div className="flex items-center justify-between  py-2 sm:py-2.5 lg:py-0 h-20 sm:h-[94px] lg:h-[86px] xl:h-[90px]">
             {/* Official Steel India Co. (Chennai) Pvt. Ltd. Logo */}
-            <Link to="/" className="flex items-center group" aria-label="Steel India Co. (Chennai) Pvt. Ltd. Home">
+            <Link to="/" className="flex items-center group shrink-0" aria-label="Steel India Co. (Chennai) Pvt. Ltd. Home">
               <img
                 src="/images/logo-steelindia.png"
                 alt="Steel India Co. (Chennai) Pvt. Ltd."
-                className="h-34 w-auto object-contain"
-                style={{ maxWidth: '260px' }}
+                className="h-16 sm:h-[98px] lg:h-[100px] xl:h-[120px] w-auto max-w-[240px] sm:max-w-[280px] lg:max-w-[320px] xl:max-w-[350px] object-contain transition-transform duration-200 group-hover:opacity-95"
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8 text-sm">
+            <nav className="hidden lg:flex items-center space-x-8 text-sm ">
               <NavLink to="/" className={activeLinkClass} end>
                 Home
               </NavLink>
@@ -164,7 +163,7 @@ export default function Navbar() {
                   to="/products"
                   className={`flex items-center space-x-1 ${location.pathname.startsWith('/product')
                     ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1'
-                    : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1'
+                    : 'text-slate-700 hover:text-[#0055A4] font-bold transition-colors pb-1'
                     }`}
                   onClick={() => setProductDropdownOpen(false)}
                 >
@@ -241,7 +240,7 @@ export default function Navbar() {
                   to="/materials"
                   className={`flex items-center space-x-1 ${location.pathname.startsWith('/material')
                     ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1'
-                    : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1'
+                    : 'text-slate-700 hover:text-[#0055A4] font-bold transition-colors pb-1'
                     }`}
                   onClick={() => setMaterialDropdownOpen(false)}
                 >
@@ -311,7 +310,7 @@ export default function Navbar() {
                   to="/certificate"
                   className={`flex items-center space-x-1 ${location.pathname.startsWith('/certificate')
                     ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1'
-                    : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1'
+                    : 'text-slate-700 hover:text-[#0055A4] font-bold transition-colors pb-1'
                     }`}
                   onClick={() => setCertDropdownOpen(false)}
                 >
@@ -406,11 +405,11 @@ export default function Navbar() {
               </a>
             </div>
 
-            <Link to="/" className="block py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
+            <Link to="/" className="block py-2 text-base font-bold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
               Home
             </Link>
 
-            <Link to="/about" className="block py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
+            <Link to="/about" className="block py-2 text-base font-bold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
               About SteelIndia
             </Link>
 
@@ -419,7 +418,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleMobileSubmenu('product')}
-                className="w-full flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4]"
+                className="w-full flex items-center justify-between py-2 text-base font-bold text-slate-800 hover:text-[#0055A4]"
               >
                 <span className="flex items-center space-x-2">
                   <Box className="w-4 h-4 text-[#E3000F]" />
@@ -447,7 +446,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleMobileSubmenu('material')}
-                className="w-full flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4]"
+                className="w-full flex items-center justify-between py-2 text-base font-bold text-slate-800 hover:text-[#0055A4]"
               >
                 <span className="flex items-center space-x-2">
                   <Layers className="w-4 h-4 text-[#0055A4]" />
@@ -475,7 +474,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleMobileSubmenu('certificate')}
-                className="w-full flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4]"
+                className="w-full flex items-center justify-between py-2 text-base font-bold text-slate-800 hover:text-[#0055A4]"
               >
                 <span className="flex items-center space-x-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
@@ -498,7 +497,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link to="/contact" className="block py-2 text-base font-semibold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
+            <Link to="/contact" className="block py-2 text-base font-bold text-slate-800 hover:text-[#0055A4] border-b border-slate-100">
               Contact Us
             </Link>
 
