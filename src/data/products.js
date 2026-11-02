@@ -686,10 +686,10 @@ export const products = [
   },
   {
     id: 'wires',
-    name: 'Wires',
-    tag: 'Drawn Products',
-    shortDesc: 'Bright annealed, spring, and welding stainless steel wires in custom spool sizes.',
-    longDesc: 'Industrial grade drawn steel wires engineered for cold heading, springs, wire mesh manufacturing, tying, and MIG/TIG welding consumables across demanding environments.',
+    name: 'Wires & Wire Mesh',
+    tag: 'Drawn Products & Mesh',
+    shortDesc: 'Bright annealed spring wires, welding filler wires, and industrial woven & welded wire mesh.',
+    longDesc: 'Industrial grade drawn steel wires and precision wire meshes engineered for cold heading, springs, wire mesh manufacturing, tying, and MIG/TIG welding consumables across demanding environments.',
     image: '/images/prod-wires.jpg',
     specs: {
       standards: 'ASTM A313, ASTM A580, AWS A5.9, DIN 17224',
@@ -746,6 +746,11 @@ export const products = [
         id: 'wire-rope', name: 'Wire Rope', image: '/images/types/wire-rope.jpg',
         specs: { standards: 'IS 2266, ASTM A1023', sizes: '1mm to 50mm', construction: '6x7, 6x19, 6x37', core: 'Fiber / Steel' },
         materials: ['SS 304', 'SS 316', 'Galvanized Steel'], applications: ['Cranes', 'Lifting', 'Suspension'], features: ['High strength', 'Flexible', 'Load bearing']
+      },
+      {
+        id: 'wire-mesh', name: 'Industrial Wire Mesh', image: '/images/stock/woven-wire-mesh.jpg',
+        specs: { standards: 'ASTM E2016, ISO 9044, DIN 4189', sizes: '1 Mesh to 635 Mesh', weave: 'Plain, Twill, Dutch, Welded', surface: 'Bright / Galvanized' },
+        materials: ['SS 304', 'SS 316', 'Monel 400', 'Brass', 'Copper Nickel'], applications: ['Filtration', 'Screening', 'Sieving', 'Security Partitions'], features: ['Accurate aperture', 'High tensile strength', 'Acid & alkali resistant']
       }
     ],
   },

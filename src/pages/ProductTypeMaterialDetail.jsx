@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import SEO from '../components/SEO';
+import OtherProductsSection from '../components/OtherProductsSection';
 import {
   getTypeMaterialCombination,
   getCategory,
@@ -390,6 +391,9 @@ export default function ProductTypeMaterialDetail() {
           </div>
         </div>
       </section>
+
+      {/* Explore Other Product Categories */}
+      <OtherProductsSection currentCategoryId={productCategory.id} />
     </div>
   );
 }
