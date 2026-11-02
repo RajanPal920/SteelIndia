@@ -309,10 +309,6 @@ export default function Home() {
         {/* Continuous Right-to-Left Marquee Track */}
         <div className="mt-10 sm:mt-12 relative w-full overflow-hidden group">
 
-          {/* Subtle Left and Right Edge Gradient Masks */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-slate-50 via-slate-50/90 to-transparent z-10" />
-
           {/* Marquee Track - Changed to Right to Left (marquee-rtl) */}
           <div className="flex w-max animate-marquee-rtl hover:[animation-play-state:paused] py-4">
 

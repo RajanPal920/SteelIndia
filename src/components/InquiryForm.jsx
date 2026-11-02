@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { products } from '../data/products';
 import { Send, AlertCircle } from 'lucide-react';
 
 export default function InquiryForm({ defaultCategory = '', defaultMaterial = '', title = "Submit a Product Inquiry" }) {
+  const [searchParams] = useSearchParams();
+
+  const getInitialValues = () => {
+    const pParam = searchParams.get('product');
+    const mParam = searchParams.get('material');
+    const tParam = searchParams.get('type');
+
+    let initialCategory = defaultCategory;
+    if (pParam) {
+      const match = products.find(p => p.id === pParam || p.name.toLowerCase() === pParam.toLowerCase());
+      if (match) initialCategory = match.name;
+    }
+
+    let initialMaterial = mParam || defaultMaterial;
+    let initialDimensions = tParam ? `Type: ${tParam}` : '';
+
+    return {
+      category: initialCategory,
+      material: initialMaterial,
+      dimensions: initialDimensions
+    };
+  };
+
+  const initial = getInitialValues();
+
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     email: '',
     phone: '',
-    productCategory: defaultCategory,
-    materialGrade: defaultMaterial,
-    dimensions: '',
+    productCategory: initial.category,
+    materialGrade: initial.material,
+    dimensions: initial.dimensions,
     quantity: '',
     message: ''
   });
+
+  useEffect(() => {
+    const updated = getInitialValues();
+    setFormData(prev => ({
+      ...prev,
+      productCategory: updated.category || prev.productCategory,
+      materialGrade: updated.material || prev.materialGrade,
+      dimensions: updated.dimensions || prev.dimensions
+    }));
+  }, [searchParams, defaultCategory, defaultMaterial]);
 
   const [errors, setErrors] = useState({});
 

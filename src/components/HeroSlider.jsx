@@ -110,7 +110,7 @@ export default function HeroSlider() {
       {/* Top Brand Accent Line (Logo Blue & Red) */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#0055A4] via-[#0055A4] to-[#E3000F] z-30"></div>
 
-      <div className="relative w-full min-h-[550px] sm:min-h-[600px] md:min-h-[640px] lg:h-[600px]">
+      <div className="relative w-full min-h-[550px] sm:min-h-[600px] md:min-h-[615px] lg:h-[580px]">
 
         {/* Background Images Layer — Clear, No Overlay */}
         {slides.map((slide, index) => {
@@ -147,7 +147,7 @@ export default function HeroSlider() {
                   className="w-full sm:max-w-xl md:max-w-2xl lg:w-[60%] xl:w-[55%] text-left animate-fadeIn"
                 >
                   {/* Clean White Glass Card - No dark overlay, highly readable */}
-                  <div className="bg-blue-100/60  backdrop-blur-m p-6 sm:p-8 lg:p-10 rounded-2xl border border-white/50">
+                  <div className="bg-blue-100/60  backdrop-blur-md p-6 sm:p-8 lg:p-10 rounded-2xl border border-white/50">
 
                     {/* Eyebrow Label - Brand Colors */}
                     <div className="inline-flex items-center space-x-2 bg-white/50 text-[#0055A4] px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-widest uppercase border border-blue-100 mb-4 sm:mb-5">

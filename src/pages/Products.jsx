@@ -4,6 +4,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
 import { products } from '../data/products';
+import { getSeoTitle, getSeoDescription } from '../data/productNavigationData';
 import { Search, Filter, Box, ArrowRight, ShieldCheck, Factory } from 'lucide-react';
 
 export default function Products() {
@@ -29,8 +30,8 @@ export default function Products() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-left font-sans">
       <SEO
-        title="Industrial Steel Products | Complete 17 Categories Catalog"
-        description="Browse all 17 product categories supplied by Steel India Co. (Chennai) Pvt. Ltd."
+        title={getSeoTitle('Complete Industrial Steel Products', 'all-products-page')}
+        description="Leading industrial products supplier and stockist in India across 17 product categories: Butt Weld Fittings, Pipes, Tubes, Flanges, Fasteners, Sheets, and Alloys with EN 10204 3.1 Mill Test Certification."
       />
 
       <Breadcrumb items={[{ label: 'Products' }]} />

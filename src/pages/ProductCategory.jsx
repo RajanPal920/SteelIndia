@@ -1,129 +1,247 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
-import InquiryForm from '../components/InquiryForm';
 import SEO from '../components/SEO';
-import { products } from '../data/products';
+import {
+  getCategory,
+  getProductType,
+  getTypeMaterials,
+  getSeoSuffix,
+  getSeoTitle,
+  getSeoDescription,
+  getCategoryUrl,
+  getProductTypeUrl,
+  getTypeMaterialUrl,
+  hasSeoSuffix
+} from '../data/productNavigationData';
 import {
   CheckCircle2, ArrowRight, ShieldCheck, FileText,
   ChevronRight, Box, Compass, Factory, Layers,
-  Download, HelpCircle, PackageCheck // Naye icons import kiye hain
+  ArrowLeft, Award, HelpCircle
 } from 'lucide-react';
 
 export default function ProductCategory() {
-  const { category } = useParams();
+  const { categorySlug, category, typeSlug, type } = useParams();
+  const cSlug = categorySlug || category;
+  const tSlug = typeSlug || type;
 
-  const product = products.find(p => p.id === category);
+  const productCategory = getCategory(cSlug);
 
-  if (!product) {
-    return <Navigate to="/product" replace />;
+  // If category not found, return 404 / redirect
+  if (!productCategory) return <Navigate to="/products" replace />;
+
+  const productType = getProductType(cSlug, tSlug);
+
+  // If type not found, redirect to category page
+  if (!productType) return <Navigate to={getCategoryUrl(productCategory.id)} replace />;
+
+  // Canonical SEO keyword sync: Ensure type route contains the rotated SEO keyword
+  if (!hasSeoSuffix(tSlug)) {
+    return <Navigate to={getProductTypeUrl(productCategory.id, productType.id)} replace />;
   }
 
-  // Related products (next 3)
-  const relatedProducts = products
-    .filter(p => p.id !== product.id)
-    .slice(0, 3);
+  // Materials available for this specific product type
+  const availableMaterials = getTypeMaterials(productCategory.id, productType.id);
+
+  // Related types from the same category
+  const relatedTypes = (productCategory.types || []).filter(t => t.id !== productType.id);
+
+  // Technical specifications map
+  const specs = productType.specs || productCategory.specs || {};
+
+  // Applications
+  const applications = productType.applications || productCategory.applications || [];
+
+  // Key features
+  const features = productType.features || productCategory.features || [];
+
+  const [selectedImg, setSelectedImg] = useState(null);
+  const activeImage = selectedImg || productType.image || productCategory.image;
+
+  const breadcrumbItems = [
+    { label: 'Products', to: '/products' },
+    { label: productCategory.name, to: getCategoryUrl(productCategory.id) },
+    { label: productType.name }
+  ];
+
+  const primaryStandard = specs.standards?.split(',')[0] || 'ASME / ASTM';
+  const seoSuffix = getSeoSuffix(productType.id);
+  const seoTitle = getSeoTitle(productType.name, productType.id, productCategory.name);
+  const seoDesc = getSeoDescription(productType.name, productType.id, `Conforms to ${primaryStandard}.`);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-left font-sans">
       <SEO
-        title={`${product.name} Specifications | Steel India Co.`}
-        description={product.shortDesc}
+        title={seoTitle}
+        description={seoDesc}
       />
 
-      <Breadcrumb
-        items={[
-          { label: 'Products', to: '/product' },
-          { label: product.name }
-        ]}
-      />
+      <Breadcrumb items={breadcrumbItems} />
 
-      {/* --- HERO SECTION --- */}
-      <section className="bg-white border-b border-slate-200 py-10 sm:py-14 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(#0055A4 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
-
+      {/* Hero Header Section */}
+      <section className="bg-white border-b border-slate-200 py-10 lg:py-14 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-
-            {/* Left: Text Content */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0055A4] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 shadow-sm">
-                <Factory className="w-3.5 h-3.5 text-[#E3000F]" />
-                {product.tag}
+            
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-5">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0055A4] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 shadow-xs">
+                  <Factory className="w-3.5 h-3.5 text-[#E3000F]" />
+                  <Link to={`/products/${productCategory.id}`} className="hover:underline">
+                    {productCategory.name}
+                  </Link>
+                  <span>/</span>
+                  <span>Product Type</span>
+                </div>
+                <span className="inline-flex items-center text-xs font-semibold tracking-wider text-[#E3000F] bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
+                  {seoSuffix}
+                </span>
               </div>
+
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0055A4] tracking-tight leading-tight">
-                {product.name}
+                {productType.name}
               </h1>
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl border-l-4 border-[#E3000F] pl-4">
-                {product.shortDesc}
+
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed border-l-4 border-[#E3000F] pl-4">
+                Precision-engineered {productType.name} compliant with {primaryStandard} specifications for critical industrial piping, pressure vessels, and processing facilities.
               </p>
 
-              <div className="pt-4 flex flex-wrap gap-4">
-                <a
-                  href="#inquiry-form"
+              {/* Action Buttons */}
+              <div className="pt-2 flex flex-wrap gap-4">
+                <Link
+                  to={`/contact?product=${encodeURIComponent(productCategory.id)}&type=${encodeURIComponent(productType.id)}`}
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-bold text-white bg-[#E3000F] hover:bg-[#C2000D] transition-colors shadow-sm"
                 >
-                  Request a Quote
-                </a>
+                  Request a Quote <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
                 <a
-                  href="#tech-specs"
+                  href="#specifications"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-bold text-[#0055A4] bg-white border-2 border-[#0055A4] hover:bg-blue-50 transition-colors"
                 >
-                  View Specifications
+                  View Technical Specs
                 </a>
               </div>
             </div>
 
-            {/* Right: Image Showcase */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-white border border-slate-200 p-6 shadow-lg relative group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-full opacity-50 -mr-2 -mt-2 pointer-events-none" />
+            {/* Right Image Container - strict object-cover, fixed aspect ratio, overflow-hidden */}
+            <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
+              <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-lg relative group">
                 <img
-                  src={product.image}
-                  alt={`${product.name} visual showcase`}
-                  className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+                  src={activeImage}
+                  alt={`${productType.name} ${seoSuffix}`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
                 />
-                <div className="absolute bottom-4 left-4 bg-[#0055A4] text-white text-[10px] font-bold px-2.5 py-1 rounded shadow-sm">
-                  PRIME QUALITY
+                <div className="absolute top-4 left-4 bg-[#0055A4] text-white text-[11px] font-bold px-3 py-1 rounded-md shadow-sm">
+                  CERTIFIED INDUSTRIAL GRADE
                 </div>
               </div>
+
+              {/* Dual Image Gallery: Type Image and Main Category Image */}
+              {productType.image && productCategory.image && productType.image !== productCategory.image && (
+                <div className="w-full max-w-md flex items-center gap-2.5 mt-3 pt-2">
+                  <span className="text-[11px] text-slate-400 font-medium">Views:</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedImg(productType.image)}
+                    className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === productType.image ? 'border-[#0055A4] shadow-sm ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
+                    title="Product Type View"
+                  >
+                    <img src={productType.image} alt={productType.name} className="w-full h-full object-cover" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedImg(productCategory.image)}
+                    className={`h-11 w-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${activeImage === productCategory.image ? 'border-[#0055A4] shadow-sm ring-2 ring-[#0055A4]/20' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
+                    title="Category View (as shown on main page)"
+                  >
+                    <img src={productCategory.image} alt={productCategory.name} className="w-full h-full object-cover" />
+                  </button>
+                  <span className="text-[10px] text-slate-500 font-sans">
+                    {activeImage === productCategory.image ? 'Category Reference' : 'Product Type'}
+                  </span>
+                </div>
+              )}
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* --- MAIN DETAILS SECTION --- */}
-      <section className="py-12 sm:py-16">
+      {/* Available Materials Cards Section (Requirement 4) */}
+      <section className="bg-slate-100/70 border-b border-slate-200 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-2">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#E3000F] mb-1">
+                <Layers className="w-3.5 h-3.5" />
+                Select Material Option
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0055A4]">
+                Available Materials for {productType.name}
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 max-w-sm">
+              Click any material card to view specific alloy grades, chemical tolerances, and technical data.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {availableMaterials.map((mat) => (
+              <Link
+                key={mat.id}
+                to={getTypeMaterialUrl(productCategory.id, productType.id, mat.id)}
+                className="group bg-white p-5 rounded-xl border border-slate-200 hover:border-[#0055A4] hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#0055A4] bg-blue-50 px-2.5 py-0.5 rounded border border-blue-100">
+                      {mat.category}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-[#E3000F] group-hover:translate-x-1 transition-all" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-800 group-hover:text-[#0055A4] transition-colors mt-1">
+                    {mat.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">
+                    {mat.tagline}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#E3000F]">
+                  <span>Explore Combination</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Details & Sidebar */}
+      <section className="py-12 sm:py-16" id="specifications">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-            {/* LEFT COLUMN: Technical Data (7 Cols) */}
-            <div className="lg:col-span-7 space-y-8">
-
-              {/* 1. Engineering Overview */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <h2 className="text-xl font-bold text-[#0055A4] mb-3 flex items-center gap-2">
-                  <Box className="w-5 h-5 text-[#E3000F]" />
-                  Engineering Overview
-                </h2>
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed text-justify">
-                  {product.longDesc}
-                </p>
-              </div>
-
-              {/* 2. Technical Specifications */}
-              <div id="tech-specs" className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm scroll-mt-24">
-                <div className="bg-[#0055A4] px-6 py-4">
+            {/* Left 8 Cols */}
+            <div className="lg:col-span-8 space-y-8">
+              
+              {/* Technical Specifications Table */}
+              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div className="bg-[#0055A4] px-6 py-4 flex items-center justify-between">
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <FileText className="w-5 h-5" />
-                    Technical Specifications
+                    <FileText className="w-5 h-5" /> Technical Specifications
                   </h3>
+                  <span className="text-xs font-mono text-white/80">
+                    {primaryStandard}
+                  </span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs sm:text-sm text-left">
                     <tbody className="divide-y divide-slate-100">
-                      {Object.entries(product.specs).map(([key, val], idx) => (
-                        <tr key={key} className={idx % 2 === 0 ? 'bg-white hover:bg-slate-50 transition-colors' : 'bg-slate-50/50 hover:bg-slate-100 transition-colors'}>
+                      {Object.entries(specs).map(([key, val], idx) => (
+                        <tr key={key} className={idx % 2 === 0 ? 'bg-white hover:bg-slate-50' : 'bg-slate-50/50 hover:bg-slate-100'}>
                           <td className="px-6 py-4 font-bold text-slate-700 capitalize w-1/3 border-r border-slate-100">
                             {key.replace(/([A-Z])/g, ' $1').trim()}
                           </td>
@@ -137,187 +255,129 @@ export default function ProductCategory() {
                 </div>
               </div>
 
-              {/* 3. Supported Materials */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0055A4] mb-2 flex items-center gap-2">
-                  <Layers className="w-5 h-5 text-[#E3000F]" />
-                  Supported Material Grades
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  Available across the following alloy classifications (subject to inquiry confirmation):
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {product.materials.map((mat, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-50 text-slate-700 border border-slate-200 hover:border-[#0055A4] hover:text-[#0055A4] transition-colors cursor-default"
-                    >
-                      {mat}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* 4. Features & Applications Grid */}
+              {/* Key Features & Applications Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                  <h3 className="text-base font-bold text-[#0055A4] mb-4 flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-[#E3000F]" />
-                    Key Features
-                  </h3>
-                  <ul className="space-y-3">
-                    {product.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-600">
-                        <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
-                        <span className="leading-snug">{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                  <h3 className="text-base font-bold text-[#0055A4] mb-4 flex items-center gap-2">
-                    <Compass className="w-5 h-5 text-[#E3000F]" />
-                    Applications
-                  </h3>
-                  <div className="space-y-2 text-xs text-slate-700">
-                    {product.applications.map((app, idx) => (
-                      <div key={idx} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 flex items-center space-x-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F]"></span>
-                        <span className="font-medium">{app}</span>
-                      </div>
-                    ))}
+                
+                {/* Applications */}
+                {applications.length > 0 && (
+                  <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h3 className="text-base font-bold text-[#0055A4] mb-4 flex items-center gap-2">
+                      <Compass className="w-5 h-5 text-[#E3000F]" /> Recommended Applications
+                    </h3>
+                    <ul className="space-y-2.5 text-xs text-slate-700">
+                      {applications.map((app, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#E3000F] shrink-0 mt-1.5"></span>
+                          <span className="font-medium leading-relaxed">{app}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
+                )}
+
+                {/* Features */}
+                {features.length > 0 && (
+                  <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h3 className="text-base font-bold text-[#0055A4] mb-4 flex items-center gap-2">
+                      <ShieldCheck className="w-5 h-5 text-[#E3000F]" /> Performance Highlights
+                    </h3>
+                    <ul className="space-y-2.5 text-xs text-slate-700">
+                      {features.map((feat, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
+                          <span className="leading-relaxed">{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
-              {/* --- NAYA SECTION: GAP FILLER (Packaging & Delivery) --- */}
-              {/* Ye section left side ki height badhayega aur space bharega */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0055A4] mb-4 flex items-center gap-2">
-                  <PackageCheck className="w-5 h-5 text-[#E3000F]" />
-                  Packaging & Delivery Information
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-600">
-                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-1">Standard Packing</span>
-                      Sea-worthy wooden crates, hex-bundling, and plastic end caps to prevent transit damage.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-1">Documentation</span>
-                      Mill Test Certificates (EN 10204 3.1), Certificate of Origin, and packing lists included.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-1">Logistics Support</span>
-                      Domestic transport via road, and international sea freight (FOB/CIF) from Chennai port.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <CheckCircle2 className="w-4 h-4 text-[#0055A4] shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-1">Custom Sizes</span>
-                      Cut-to-length and custom dimensional fabrication available on special request.
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Back to Category Navigation */}
+              <div className="pt-2 flex items-center justify-between border-t border-slate-200">
+                <Link
+                  to={`/products/${productCategory.id}`}
+                  className="inline-flex items-center text-sm font-bold text-[#0055A4] hover:text-[#E3000F] transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to {productCategory.name} Overview
+                </Link>
 
-              {/* --- NAYA SECTION: FAQ / HELP (Gap Filler 2) --- */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0055A4] mb-4 flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-[#E3000F]" />
-                  Common Questions About This Product
-                </h3>
-                <div className="space-y-3 text-sm">
-                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-100">
-                    <div className="font-bold text-slate-800 mb-1">What is the minimum order quantity?</div>
-                    <div className="text-xs text-slate-600">We cater to both small-scale procurement and bulk industrial projects. Please submit your exact requirement for a tailored quote.</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-100">
-                    <div className="font-bold text-slate-800 mb-1">Do you provide third-party inspection?</div>
-                    <div className="text-xs text-slate-600">Yes, we coordinate with agencies like SGS, TUV, and Bureau Veritas as per client requirements.</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-100">
-                    <div className="font-bold text-slate-800 mb-1">Can you supply custom dimensions?</div>
-                    <div className="text-xs text-slate-600">Absolutely. We provide cut-to-size, beveled, and custom-machined components based on your engineering drawings.</div>
-                  </div>
-                </div>
+                <Link
+                  to="/products"
+                  className="text-xs font-semibold text-slate-500 hover:text-[#0055A4] transition-colors"
+                >
+                  View All Product Categories &rarr;
+                </Link>
               </div>
 
             </div>
 
-            {/* RIGHT COLUMN: Sticky Sidebar (5 Cols - Widened) */}
-            <div className="lg:col-span-5">
+            {/* Right 4 Cols: Sticky Sidebar */}
+            <div className="lg:col-span-4">
               <div className="sticky top-24 space-y-6">
 
-                {/* Inquiry Form Box */}
-                <div id="inquiry-form" className="scroll-mt-24 w-full">
-                  <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-                    <div className="bg-[#E3000F] px-6 py-4">
-                      <h3 className="text-white font-bold text-lg">Request a Quote</h3>
-                      <p className="text-white/80 text-xs mt-1">Fill out the details for {product.name}.</p>
+                {/* RFQ Box */}
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden">
+                  <div className="bg-[#E3000F] px-5 py-3.5 text-white">
+                    <h3 className="font-bold text-sm uppercase tracking-wide flex items-center gap-2">
+                      <FileText className="w-4 h-4" /> Request a Quotation
+                    </h3>
+                  </div>
+                  <div className="p-5 space-y-3">
+                    <p className="text-sm font-bold text-slate-900 leading-snug">
+                      {productType.name}
+                    </p>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Category: {productCategory.name}
+                      <br />
+                      MTC EN 10204 3.1 & 3.2 documentation available with every dispatch.
+                    </p>
+                    <Link
+                      to={`/contact?product=${encodeURIComponent(productCategory.id)}&type=${encodeURIComponent(productType.id)}`}
+                      className="mt-3 inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#0055A4] hover:bg-[#003d7a] transition-colors shadow-sm"
+                    >
+                      Inquire for this Type <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Related Types in this Category */}
+                {relatedTypes.length > 0 && (
+                  <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                    <div className="bg-[#0055A4] px-5 py-3.5 shrink-0 text-white">
+                      <h3 className="font-bold text-sm uppercase tracking-wide flex items-center gap-2">
+                        <Box className="w-4 h-4" /> Other {productCategory.name}
+                      </h3>
                     </div>
-                    <div className="p-5 sm:p-6">
-                      <InquiryForm
-                        defaultCategory={product.name}
-                        title=""
-                      />
+                    <div className="p-3 space-y-2 max-h-[400px] overflow-y-auto">
+                      {relatedTypes.slice(0, 8).map(rt => (
+                        <Link
+                          key={rt.id}
+                          to={getProductTypeUrl(productCategory.id, rt.id)}
+                          className="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100 hover:border-[#0055A4] hover:bg-blue-50 transition-colors group"
+                        >
+                          <div className="w-12 h-12 shrink-0 rounded-md bg-slate-100 overflow-hidden">
+                            <img
+                              src={rt.image || productCategory.image}
+                              alt={rt.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-bold text-slate-800 group-hover:text-[#0055A4] truncate">
+                              {rt.name}
+                            </p>
+                            <p className="text-[10px] text-slate-400 truncate">
+                              {rt.specs?.standards || productCategory.tag}
+                            </p>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-[#E3000F] shrink-0" />
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                </div>
-
-                {/* Related Product Cards */}
-                <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 border-b border-slate-100 pb-2 flex items-center justify-between">
-                    <span>Related Categories</span>
-                    <Link to="/product" className="text-[#0055A4] hover:text-[#E3000F] normal-case font-semibold">View All</Link>
-                  </div>
-
-                  <div className="space-y-3">
-                    {relatedProducts.map((rel) => (
-                      <Link
-                        key={rel.id}
-                        to={`/product/${rel.id}`}
-                        className="group flex items-center gap-4 p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#0055A4] hover:bg-white transition-all"
-                      >
-                        <div className="w-16 h-16 rounded-lg bg-white border border-slate-200 flex items-center justify-center p-2 shrink-0">
-                          <img
-                            src={rel.image}
-                            alt={rel.name}
-                            className="w-full h-full object-contain mix-blend-multiply"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-slate-800 group-hover:text-[#0055A4] transition-colors truncate">
-                            {rel.name}
-                          </h4>
-                          <p className="text-[10px] text-slate-500 font-mono mt-0.5 truncate">
-                            {rel.specs?.standards?.split(',')[0] || 'ASME / ASTM'}
-                          </p>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#E3000F] group-hover:translate-x-1 transition-all shrink-0" />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Support Box */}
-                <div className="bg-[#0055A4] rounded-2xl p-5 text-white text-center shadow-md">
-                  <ShieldCheck className="w-8 h-8 mx-auto mb-2 text-white/80" />
-                  <h4 className="font-bold text-sm">Need Technical Assistance?</h4>
-                  <p className="text-xs text-white/80 mt-1 mb-3">Our engineering team is here to help you with specifications.</p>
-                  <a href="tel:+914425228058" className="inline-block w-full py-2.5 bg-white text-[#0055A4] font-bold text-xs rounded-lg hover:bg-slate-100 transition-colors">
-                    Call +91 44 2522 8058
-                  </a>
-                </div>
+                )}
 
               </div>
             </div>

@@ -4,7 +4,7 @@ import { Phone, MessageCircle, X } from 'lucide-react';
 // Client-configurable contact parameters
 export const CONTACT_CONFIG = {
   // Official mobile number: 9840425654
-  whatsappNumber: '919322195162',
+  whatsappNumber: '+919322195162',
   // Official tel link
   telNumber: '+919840425654',
   defaultWhatsappMessage: 'Hello Steel India Co. (Chennai) Pvt. Ltd. team, I would like to inquire about steel products and material specifications for an upcoming project.',

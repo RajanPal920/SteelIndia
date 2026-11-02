@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import MaterialCard from '../components/MaterialCard';
 import SEO from '../components/SEO';
+import { getActiveMaterials } from '../data/productMaterialRegistry';
+import { getSeoTitle, getSeoDescription } from '../data/productNavigationData';
 import { materials } from '../data/materials';
 import { Layers, ArrowRight, AlertCircle, Search, Filter, Box, ShieldCheck } from 'lucide-react';
 
 export default function Materials() {
   const [searchTerm, setSearchTerm] = useState('');
+  const activeMaterials = getActiveMaterials();
 
-  const filteredMaterials = materials.filter(m =>
+  const filteredMaterials = activeMaterials.filter(m =>
     m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.grades.some(g => g.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -18,8 +21,8 @@ export default function Materials() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-left font-sans">
       <SEO
-        title="Material Range & Steel Alloy Families | Steel India Co."
-        description="Explore 15 industrial material families: Stainless Steel, Carbon Steel, Duplex, Super Duplex, Inconel, Monel, Hastelloy, Titanium, Copper Nickel and specialty alloys."
+        title={getSeoTitle('Industrial Material Families & Special Steel Alloys', 'all-materials-page')}
+        description={`Leading stockist and supplier in India for ${activeMaterials.length} industrial material families: Stainless Steel, Carbon Steel, Duplex, Inconel, Monel, Hastelloy, Titanium, and Copper Nickel with complete EN 10204 3.1 certification.`}
       />
 
       <Breadcrumb items={[{ label: 'Materials' }]} />
@@ -32,13 +35,13 @@ export default function Materials() {
           <div className="max-w-3xl space-y-4">
             <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#E3000F] bg-white px-4 py-1.5 rounded-full shadow-sm">
               <Layers className="w-4 h-4" />
-              15 Alloy & Steel Families
+              {activeMaterials.length} Alloy & Steel Families
             </span>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-md">
               Explore Our Material Families
             </h1>
             <p className="text-base sm:text-lg text-white/90 leading-relaxed">
-              Industrial piping and fabrication demand precise metallurgy tailored to corrosion risks, mechanical loads, and working temperatures. We supply across 15 material families.
+              Industrial piping and fabrication demand precise metallurgy tailored to corrosion risks, mechanical loads, and working temperatures. We supply verified products across {activeMaterials.length} certified material families.
             </p>
           </div>
         </div>
@@ -89,7 +92,7 @@ export default function Materials() {
           {/* Results Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-slate-200 gap-3">
             <div className="text-sm text-slate-600 font-medium bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
-              Showing <span className="font-bold text-[#0055A4]">{filteredMaterials.length}</span> of {materials.length} material families
+              Showing <span className="font-bold text-[#0055A4]">{filteredMaterials.length}</span> of {activeMaterials.length} material families
             </div>
             <div className="flex items-center gap-2 text-xs text-slate-500 font-mono bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
               <ShieldCheck className="w-4 h-4 text-[#E3000F]" />

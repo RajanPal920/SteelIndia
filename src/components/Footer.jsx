@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowUp, Mail, Phone, MapPin, Clock, ShieldCheck,
@@ -8,6 +8,8 @@ import {
 import { FaWhatsapp, FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { products } from '../data/products';
 import { materials } from '../data/materials';
+import { getActiveMaterials } from '../data/productMaterialRegistry';
+import { getCategoryUrl, getMaterialUrl } from '../data/productNavigationData';
 
 export default function Footer() {
   const [modalType, setModalType] = useState(null); // 'privacy' | 'terms' | null
@@ -102,7 +104,7 @@ export default function Footer() {
                 {products.slice(0, 6).map((p) => (
                   <li key={p.id}>
                     <Link
-                      to={`/product/${p.id}`}
+                      to={getCategoryUrl(p.id)}
                       className="text-white/80 hover:text-white transition-colors flex items-center group font-medium"
                     >
                       <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white mr-1.5 transition-transform group-hover:translate-x-1" />
@@ -111,7 +113,7 @@ export default function Footer() {
                   </li>
                 ))}
                 <li>
-                  <Link to="/product" className="text-white font-bold hover:underline text-xs mt-2 inline-block">
+                  <Link to="/products" className="text-white font-bold hover:underline text-xs mt-2 inline-block">
                     View All 17 Categories &rarr;
                   </Link>
                 </li>
@@ -124,10 +126,10 @@ export default function Footer() {
                 Materials
               </h4>
               <ul className="grid grid-cols-1 gap-2.5 text-sm">
-                {materials.slice(0, 6).map((m) => (
+                {getActiveMaterials().slice(0, 6).map((m) => (
                   <li key={m.id}>
                     <Link
-                      to={`/material/${m.id}`}
+                      to={getMaterialUrl(m.id)}
                       className="text-white/80 hover:text-white transition-colors flex items-center group font-medium"
                     >
                       <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white mr-1.5 transition-transform group-hover:translate-x-1" />
@@ -136,8 +138,8 @@ export default function Footer() {
                   </li>
                 ))}
                 <li>
-                  <Link to="/material" className="text-white font-bold hover:underline text-xs mt-2 inline-block">
-                    View All 15 Families &rarr;
+                  <Link to="/materials" className="text-white font-bold hover:underline text-xs mt-2 inline-block">
+                    View All {getActiveMaterials().length} Families &rarr;
                   </Link>
                 </li>
               </ul>
@@ -186,6 +188,42 @@ export default function Footer() {
               </ul>
             </div>
 
+          </div>
+
+          {/* Popular Material Grades Row */}
+          <div className="pt-8 mt-8 border-t border-white/10 text-left">
+            <div className="text-xs font-bold text-white uppercase tracking-wider mb-3">
+              Certified Material Grades (Click for Technical Specifications & Stock Details):
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              {[
+                { name: 'SS 304 / 304L', url: '/materials/stainless-steel/304-304l' },
+                { name: 'SS 316 / 316L', url: '/materials/stainless-steel/316-316l' },
+                { name: 'SS 316Ti', url: '/materials/stainless-steel/316ti' },
+                { name: 'SS 321 / 321H', url: '/materials/stainless-steel/321-321h' },
+                { name: 'SS 310 / 310S', url: '/materials/stainless-steel/310-310s' },
+                { name: 'SS 904L', url: '/materials/stainless-steel/904l' },
+                { name: 'Duplex 2205', url: '/materials/duplex-stainless-steel/uns-s31803-duplex-2205' },
+                { name: 'Super Duplex 2507', url: '/materials/super-duplex-stainless-steel/uns-s32750-2507-f53' },
+                { name: 'Inconel 625', url: '/materials/inconel/inconel-625-uns-n06625' },
+                { name: 'Inconel 600', url: '/materials/inconel/inconel-600-uns-n06600' },
+                { name: 'Hastelloy C276', url: '/materials/hastelloy/hastelloy-c276-uns-n10276' },
+                { name: 'Monel 400', url: '/materials/monel/monel-400-uns-n04400' },
+                { name: 'ASTM A106 Gr B', url: '/materials/carbon-steel/astm-a106-gr-b-c' },
+                { name: 'ASTM A105', url: '/materials/carbon-steel/astm-a105' },
+                { name: 'ASTM A350 LF2', url: '/materials/carbon-steel/astm-a350-lf2-low-temp' },
+                { name: 'CuNi 90/10', url: '/materials/copper-nickel/cuni-90-10-c70600' },
+                { name: 'Titanium Gr 5', url: '/materials/titanium/grade-5-ti-6al-4v-high-strength' }
+              ].map((g, idx) => (
+                <Link
+                  key={idx}
+                  to={g.url}
+                  className="bg-white/10 hover:bg-[#0055A4] text-white/90 hover:text-white px-2.5 py-1 rounded text-[11px] font-mono transition-colors border border-white/10"
+                >
+                  {g.name}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 

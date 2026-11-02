@@ -11,7 +11,9 @@ import {
 } from 'react-icons/fa';
 import { products } from '../data/products';
 import { materials } from '../data/materials';
+import { getActiveMaterials } from '../data/productMaterialRegistry';
 import { certificateCategories } from '../data/certificates';
+import { getCategoryUrl, getMaterialUrl } from '../data/productNavigationData';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -159,7 +161,7 @@ export default function Navbar() {
                 }}
               >
                 <Link
-                  to="/product"
+                  to="/products"
                   className={`flex items-center space-x-1 ${location.pathname.startsWith('/product')
                     ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1'
                     : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1'
@@ -182,7 +184,7 @@ export default function Navbar() {
                         <span>All 17 Industrial Product Categories</span>
                       </div>
                       <Link
-                        to="/product"
+                        to="/products"
                         onClick={() => setProductDropdownOpen(false)}
                         className="text-xs font-semibold text-white hover:text-black flex items-center space-x-1"
                       >
@@ -195,7 +197,7 @@ export default function Navbar() {
                       {products.map((p) => (
                         <Link
                           key={p.id}
-                          to={`/product/${p.id}`}
+                          to={getCategoryUrl(p.id)}
                           onClick={() => setProductDropdownOpen(false)}
                           className="group flex items-start space-x-2.5 p-2 rounded-lg hover:bg-white transition-colors text-left"
                         >
@@ -236,7 +238,7 @@ export default function Navbar() {
                 }}
               >
                 <Link
-                  to="/material"
+                  to="/materials"
                   className={`flex items-center space-x-1 ${location.pathname.startsWith('/material')
                     ? 'text-[#0055A4] font-bold border-b-2 border-[#E3000F] pb-1'
                     : 'text-slate-700 hover:text-[#0055A4] font-medium transition-colors pb-1'
@@ -256,10 +258,10 @@ export default function Navbar() {
                     <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/20">
                       <div className="flex items-center space-x-2 text-white font-bold text-sm">
                         <Layers className="w-4 h-4 text-white" />
-                        <span>All 15 Steel & Alloy Families</span>
+                        <span>All {getActiveMaterials().length} Steel & Alloy Families</span>
                       </div>
                       <Link
-                        to="/material"
+                        to="/materials"
                         onClick={() => setMaterialDropdownOpen(false)}
                         className="text-xs font-semibold text-white hover:text-black flex items-center space-x-1"
                       >
@@ -269,10 +271,10 @@ export default function Navbar() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-x-4 gap-y-2.5 max-h-[380px] overflow-y-auto pr-1">
-                      {materials.map((m) => (
+                      {getActiveMaterials().map((m) => (
                         <Link
                           key={m.id}
-                          to={`/material/${m.id}`}
+                          to={getMaterialUrl(m.id)}
                           onClick={() => setMaterialDropdownOpen(false)}
                           className="group flex items-start space-x-2.5 p-2 rounded-lg hover:bg-white transition-colors text-left"
                         >
@@ -428,11 +430,11 @@ export default function Navbar() {
 
               {mobileSubmenu === 'product' && (
                 <div className="pl-4 py-2 space-y-1.5 bg-slate-50 rounded-lg my-1">
-                  <Link to="/product" className="block py-1.5 text-xs font-bold text-[#0055A4] hover:underline">
+                  <Link to="/products" className="block py-1.5 text-xs font-bold text-[#0055A4] hover:underline">
                     &rarr; View All 17 Products
                   </Link>
                   {products.map((p) => (
-                    <Link key={p.id} to={`/product/${p.id}`} className="block py-1 text-xs text-slate-700 hover:text-[#0055A4]">
+                    <Link key={p.id} to={getCategoryUrl(p.id)} className="block py-1 text-xs text-slate-700 hover:text-[#0055A4]">
                       {p.name}
                     </Link>
                   ))}
@@ -449,18 +451,18 @@ export default function Navbar() {
               >
                 <span className="flex items-center space-x-2">
                   <Layers className="w-4 h-4 text-[#0055A4]" />
-                  <span>Material Families ({materials.length})</span>
+                  <span>Material Families ({getActiveMaterials().length})</span>
                 </span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${mobileSubmenu === 'material' ? 'rotate-180 text-[#0055A4]' : 'text-slate-400'}`} />
               </button>
 
               {mobileSubmenu === 'material' && (
                 <div className="pl-4 py-2 space-y-1.5 bg-slate-50 rounded-lg my-1">
-                  <Link to="/material" className="block py-1.5 text-xs font-bold text-[#0055A4] hover:underline">
+                  <Link to="/materials" className="block py-1.5 text-xs font-bold text-[#0055A4] hover:underline">
                     &rarr; View All Material Families
                   </Link>
-                  {materials.map((m) => (
-                    <Link key={m.id} to={`/material/${m.id}`} className="block py-1 text-xs text-slate-700 hover:text-[#0055A4]">
+                  {getActiveMaterials().map((m) => (
+                    <Link key={m.id} to={getMaterialUrl(m.id)} className="block py-1 text-xs text-slate-700 hover:text-[#0055A4]">
                       {m.name}
                     </Link>
                   ))}
