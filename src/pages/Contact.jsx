@@ -44,77 +44,6 @@ export default function Contact() {
             {/* Left 5 Cols */}
             <div className="lg:col-span-5 space-y-6">
 
-              {/* Main Contact Card */}
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-                <div className="bg-[#0055A4] px-6 py-4">
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <Building2 className="w-5 h-5 text-[#E3000F] bg-white rounded-full p-0.5" />
-                    Head Office & Site Office
-                  </h3>
-                </div>
-                <div className="p-6 space-y-6 text-sm text-slate-700">
-                  {/* H.O Address */}
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-10 h-10 rounded-full bg-red-50 text-[#E3000F] flex items-center justify-center shrink-0 border border-red-100">
-                      <MapPin className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Head Office (H.O)</div>
-                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
-                        No 25, Muthumari Chetty Street,<br />
-                        Chennai – 600 001.
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* S.O Address */}
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0055A4] flex items-center justify-center shrink-0 border border-blue-100">
-                      <Building2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Site Office (S.O)</div>
-                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
-                        125, Linghi Chetty Street,<br />
-                        Chennai – 600 001.
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr className="border-slate-100" />
-
-                  {/* Email */}
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email Inquiry</div>
-                      <a href="mailto:steelindialtd@yahoo.com" className="text-[#0055A4] font-bold hover:underline text-[15px]">
-                        steelindialtd@yahoo.com
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="flex items-start space-x-3.5">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Lines</div>
-                      <a href="tel:+914425228058" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
-                        +91 44 2522 8058
-                      </a>
-                      <a href="tel:+914423463810" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
-                        +91 44 2346 3810
-                      </a>
-                      <div className="text-slate-500 mt-1 font-medium">Mobile: <a href="tel:+919840425654" className="hover:text-[#E3000F]">+91 98404 25654</a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Key Contact Persons */}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                 <h4 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-4 flex items-center justify-between">
@@ -182,6 +111,81 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
+
+              {/* Main Contact Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                <div className="bg-[#0055A4] px-6 py-4">
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Building2 className="w-5 h-5 text-[#E3000F] bg-white rounded-full p-0.5" />
+                    Head Office & Site Office
+                  </h3>
+                </div>
+                <div className="p-6 space-y-6 text-sm text-slate-700">
+                  {/* H.O Address */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-red-50 text-[#E3000F] flex items-center justify-center shrink-0 border border-red-100">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Head Office (H.O)</div>
+                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
+                        No 25, Muthumari Chetty Street,<br />
+                        Chennai – 600 001.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* S.O Address */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0055A4] flex items-center justify-center shrink-0 border border-blue-100">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Site Office (S.O)</div>
+                      <div className="text-slate-900 font-medium text-[15px] leading-snug">
+                        125, Linghi Chetty Street,<br />
+                        Chennai – 600 001.
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className="border-slate-100" />
+
+                  {/* Email */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email Inquiry</div>
+                      <a href="mailto:steelindialtd@yahoo.com" className="text-[#0055A4] font-bold hover:underline text-[15px]">
+                        steelindialtd@yahoo.com
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Lines</div>
+                      <a href="tel:+914425228058" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
+                        +91 44 2522 8058
+                      </a>
+                      <a href="tel:+914423463810" className="text-slate-900 font-bold hover:text-[#E3000F] transition-colors block text-[15px]">
+                        +91 44 2346 3810
+                      </a>
+                      <div className="text-black mt-1 font-semibold">Mobile: <a href="tel:+919840425654" className="hover:text-[#E3000F]">+91 98404 25654</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
 
             </div>
 
