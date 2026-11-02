@@ -130,13 +130,13 @@ export default function Navbar() {
       {/* Main Sticky Navbar */}
       <header className="sticky font-bold top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm" ref={dropdownRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-          <div className="flex items-center justify-between  py-2 sm:py-2.5 lg:py-0 h-20 sm:h-[94px] lg:h-[86px] xl:h-[90px]">
+          <div className="flex items-center justify-between py-0.5 sm:py-2.5 lg:py-0 h-20 sm:h-[94px] lg:h-[86px] xl:h-[90px]">
             {/* Official Steel India Co. (Chennai) Pvt. Ltd. Logo */}
             <Link to="/" className="flex items-center group shrink-0" aria-label="Steel India Co. (Chennai) Pvt. Ltd. Home">
               <img
                 src="/images/logo-steelindia.png"
                 alt="Steel India Co. (Chennai) Pvt. Ltd."
-                className="h-16 sm:h-[98px] lg:h-[100px] xl:h-[120px] w-auto max-w-[240px] sm:max-w-[280px] lg:max-w-[320px] xl:max-w-[350px] object-contain transition-transform duration-200 group-hover:opacity-95"
+                className="h-[74px] sm:h-[98px] lg:h-[100px] xl:h-[120px] w-auto max-w-[260px] sm:max-w-[280px] lg:max-w-[320px] xl:max-w-[350px] object-contain transition-transform duration-200 group-hover:opacity-95"
               />
             </Link>
 

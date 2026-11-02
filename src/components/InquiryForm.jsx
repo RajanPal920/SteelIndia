@@ -10,6 +10,7 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
     const pParam = searchParams.get('product');
     const mParam = searchParams.get('material');
     const tParam = searchParams.get('type');
+    const gParam = searchParams.get('grade');
 
     let initialCategory = defaultCategory;
     if (pParam) {
@@ -18,6 +19,9 @@ export default function InquiryForm({ defaultCategory = '', defaultMaterial = ''
     }
 
     let initialMaterial = mParam || defaultMaterial;
+    if (gParam) {
+      initialMaterial = initialMaterial ? `${initialMaterial} - Grade ${gParam}` : `Grade ${gParam}`;
+    }
     let initialDimensions = tParam ? `Type: ${tParam}` : '';
 
     return {

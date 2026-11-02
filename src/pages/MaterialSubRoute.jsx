@@ -1,6 +1,6 @@
 // src/pages/MaterialSubRoute.jsx
 import React from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import GradeDetail from './GradeDetail';
 import ProductMaterialDetail from './ProductMaterialDetail';
 import { getGradeBySlug } from '../data/gradesData';
@@ -8,7 +8,7 @@ import { getProductMaterialBySlug } from '../data/productMaterialRegistry';
 
 /**
  * Smart dispatcher that routes /materials/:materialSlug/:slug
- * to either GradeDetail (for alloy grades like 304, 316, 2205)
+ * to either GradeDetail (for alloy grades like ss-304, astm-a106-grade-b)
  * or ProductMaterialDetail (for product items from productMaterials)
  */
 export default function MaterialSubRoute() {
@@ -28,7 +28,6 @@ export default function MaterialSubRoute() {
     return <ProductMaterialDetail />;
   }
 
-  // Fallback: If neither, try GradeDetail which handles 404/redirect to material page
+  // Fallback: GradeDetail will handle 404 / Not Found state
   return <GradeDetail />;
 }
-

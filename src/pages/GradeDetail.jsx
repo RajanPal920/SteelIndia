@@ -2,64 +2,76 @@ import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import SEO from '../components/SEO';
-import { getGradeBySlug, getGradeUrl, getProductsForGrade } from '../data/gradesData';
+import { getGradeBySlug, getGradeUrl, getProductsForGrade, getGradesForMaterial } from '../data/gradesData';
 import { materials } from '../data/materials';
+import { getProductMaterialUrl } from '../data/productMaterialRegistry';
 import {
   getSeoSuffix,
   getSeoTitle,
   getSeoDescription,
   getMaterialUrl,
   getCategoryUrl,
-  getTypeMaterialUrl,
-  hasSeoSuffix
+  getTypeMaterialUrl
 } from '../data/productNavigationData';
 import {
   Layers, ArrowRight, ShieldCheck, Box, Factory,
   FileCheck2, Compass, ChevronRight, FlaskConical, Award,
-  CheckCircle2, ArrowLeft
+  CheckCircle2, ArrowLeft, Mail, Phone
 } from 'lucide-react';
 
 export default function GradeDetail() {
-  const { materialSlug, gradeSlug: paramGradeSlug, grade: altGradeParam } = useParams();
-  const slug = paramGradeSlug || altGradeParam;
+  const { materialSlug, material: altMaterial, gradeSlug: paramGradeSlug, grade: altGradeParam, slug: routeSlug } = useParams();
+  const mSlug = materialSlug || altMaterial;
+  const slug = paramGradeSlug || altGradeParam || routeSlug;
 
-  const grade = getGradeBySlug(slug, materialSlug);
+  const grade = getGradeBySlug(slug, mSlug);
 
-  // If grade not found, redirect to materials
+  // If grade not found, show proper Not Found page
   if (!grade) {
-    if (materialSlug) {
-      return <Navigate to={`/materials/${materialSlug}`} replace />;
-    }
-    return <Navigate to="/materials" replace />;
+    const parentMat = materials.find(m => m.id === mSlug);
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center bg-slate-50 font-sans">
+        <div className="w-16 h-16 rounded-full bg-red-50 text-[#E3000F] flex items-center justify-center mb-4">
+          <FlaskConical className="w-8 h-8" />
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">Grade Specifications Not Found</h1>
+        <p className="text-slate-600 mb-6 text-sm max-w-md">
+          The material grade specification "{slug}" could not be located in our metallurgical registry.
+        </p>
+        <Link
+          to={parentMat ? getMaterialUrl(parentMat.id) : '/materials'}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0055A4] text-white font-bold text-sm hover:bg-[#003d7a] transition-colors shadow-sm"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back to {parentMat?.name || 'Materials'}
+        </Link>
+      </div>
+    );
   }
 
   // Find parent material
   const parentMaterial = materials.find(m => m.id === grade.materialId) || grade.parentMaterial || materials[0];
 
-  // Canonical SEO keyword sync: Ensure grade route contains the rotated SEO keyword
-  if (!hasSeoSuffix(slug)) {
-    return <Navigate to={getGradeUrl(grade.grade, parentMaterial.id)} replace />;
-  }
-
   // Sibling grades in same material family
-  const siblingGrades = parentMaterial?.grades?.filter(g => g !== grade.grade) || [];
+  const siblingGrades = getGradesForMaterial(parentMaterial.id).filter(g => g.slug !== grade.slug);
 
-  // Products available in this grade
-  const availableProductCategories = getProductsForGrade(grade.slug, parentMaterial?.id);
+  // Products available in this grade (matched from productMaterials and products.js)
+  const { productMaterials: gradeProducts, productCategories: gradeCategories } = getProductsForGrade(grade.slug, parentMaterial.id);
 
-  // Dynamic SEO Suffix
-  const seoSuffix = getSeoSuffix(grade.slug);
-  const seoTitle = getSeoTitle(grade.name, grade.slug, parentMaterial?.name);
-  const seoDesc = getSeoDescription(grade.name, grade.slug, `Chemical composition, mechanical properties, and ASTM/ASME standards.`);
+  // Dynamic SEO Suffix & Titles
+  const seoTitle = `${grade.grade} ${parentMaterial.name} Grade Specifications | SteelIndia`;
+  const seoDesc = `${grade.grade} (${grade.uns || parentMaterial.name}) chemical composition, mechanical properties, ASTM/ASME standards, and available product forms at Steel India Co.`;
 
-  // Breadcrumb items
+  // Breadcrumb items: Home > Materials > Material Name > Grade Name
   const breadcrumbItems = [
     { label: 'Materials', to: '/materials' },
     { label: parentMaterial.name, to: getMaterialUrl(parentMaterial.id) },
     { label: grade.grade }
   ];
 
-  const gradeImage = parentMaterial.image || '/images/stock/stainless-steel.jpg';
+  // Pick first available product image or parent material image
+  const featuredImage = (gradeProducts.length > 0 && gradeProducts[0].image)
+    ? gradeProducts[0].image
+    : (parentMaterial.image || '/images/stock/stainless-steel.jpg');
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-left font-sans">
@@ -80,17 +92,19 @@ export default function GradeDetail() {
               <div className="flex flex-wrap items-center gap-2">
                 <Link
                   to={getMaterialUrl(parentMaterial.id)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0055A4] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0055A4] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors shadow-2xs"
                 >
                   <Layers className="w-3.5 h-3.5 text-[#E3000F]" />
                   {parentMaterial.name}
                 </Link>
-                <span className="inline-flex items-center text-xs font-semibold tracking-wider text-[#E3000F] bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
-                  {seoSuffix}
-                </span>
                 {grade.uns && (
-                  <span className="inline-flex items-center text-xs font-mono font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                  <span className="inline-flex items-center text-xs font-mono font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
                     {grade.uns}
+                  </span>
+                )}
+                {grade.din && (
+                  <span className="inline-flex items-center text-xs font-mono font-medium text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
+                    {grade.din}
                   </span>
                 )}
               </div>
@@ -106,26 +120,32 @@ export default function GradeDetail() {
               {/* Action Buttons */}
               <div className="pt-2 flex flex-wrap gap-4">
                 <Link
-                  to={`/contact?material=${encodeURIComponent(parentMaterial.id)}&grade=${encodeURIComponent(grade.grade)}`}
+                  to={`/contact?material=${encodeURIComponent(parentMaterial.name)}&grade=${encodeURIComponent(grade.grade)}`}
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-bold text-white bg-[#E3000F] hover:bg-[#C2000D] transition-colors shadow-sm"
                 >
-                  Inquire for {grade.grade} <ArrowRight className="w-4 h-4 ml-2" />
+                  Request a Quote for {grade.grade} <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
                 <a
                   href="#chemical-composition"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-bold text-[#0055A4] bg-white border-2 border-[#0055A4] hover:bg-blue-50 transition-colors"
                 >
-                  View Chemistry & Specs
+                  Chemical & Mechanical Specs
+                </a>
+                <a
+                  href="#available-products"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                >
+                  Available Products ({gradeProducts.length})
                 </a>
               </div>
             </div>
 
-            {/* Right Image Container - Strict object-cover, fixed aspect ratio, overflow-hidden */}
+            {/* Right Image Container - Strict object-cover, fixed aspect ratio */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="w-full max-w-md aspect-[4/3] rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shadow-xl relative group">
                 <img
-                  src={gradeImage}
-                  alt={`${grade.name} ${seoSuffix}`}
+                  src={featuredImage}
+                  alt={`${grade.name} - Steel India Co.`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -142,26 +162,26 @@ export default function GradeDetail() {
         </div>
       </section>
 
-      {/* Sibling Grades Switcher Strip (Requirement: Switch grades with unique URLs) */}
+      {/* Sibling Grades Switcher Strip (Quick Navigation to Other Grades in Same Material) */}
       {siblingGrades.length > 0 && (
-        <section className="bg-slate-100/80 border-b border-slate-200 py-4">
+        <section className="bg-slate-100/90 border-b border-slate-200 py-3.5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-2 flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5 text-[#E3000F]" />
               Other {parentMaterial.name} Grades:
             </span>
-            {siblingGrades.map((g, idx) => {
-              const url = getGradeUrl(g, parentMaterial.id);
-              return (
+            <div className="flex flex-wrap gap-1.5">
+              {siblingGrades.map((g) => (
                 <Link
-                  key={idx}
-                  to={url}
-                  className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 hover:bg-[#0055A4] hover:text-white border border-slate-200 transition-colors shadow-2xs"
+                  key={g.slug}
+                  to={getGradeUrl(g.grade, parentMaterial.id)}
+                  className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-white text-slate-700 hover:bg-[#0055A4] hover:text-white border border-slate-200 hover:border-[#0055A4] transition-colors shadow-2xs"
+                  title={`View specifications for ${g.grade}`}
                 >
-                  {g}
+                  {g.grade}
                 </Link>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -182,7 +202,7 @@ export default function GradeDetail() {
               
               {/* International Standards */}
               {grade.standards && grade.standards.length > 0 && (
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 mt-4">
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2 mt-4">
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4 text-[#0055A4]" />
                     Applicable Manufacturing Specifications & Standards
@@ -198,6 +218,7 @@ export default function GradeDetail() {
               )}
             </div>
 
+            {/* Quality & Inspection Card */}
             <div className="lg:col-span-4 bg-blue-50/50 p-6 rounded-2xl border border-blue-100 space-y-4">
               <div className="text-xs font-bold text-[#0055A4] uppercase tracking-wider flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-[#E3000F]" />
@@ -218,14 +239,22 @@ export default function GradeDetail() {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>Intergranular corrosion test (IGC Practice A/E) compliant</span>
+                  <span>Hydrostatic, ultrasonic, and radiographic testing per ASME</span>
                 </li>
               </ul>
+              <div className="pt-2">
+                <Link
+                  to={`/contact?material=${encodeURIComponent(parentMaterial.name)}&grade=${encodeURIComponent(grade.grade)}`}
+                  className="w-full inline-flex items-center justify-center px-4 py-2 bg-[#0055A4] text-white text-xs font-bold rounded-lg hover:bg-[#E3000F] transition-colors"
+                >
+                  Request MTC & Inspection Report
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Chemical Composition Table */}
-          {grade.chemicalComposition && grade.chemicalComposition.length > 0 && (
+          {grade.chemicalComposition && grade.chemicalComposition.length > 0 ? (
             <div className="pt-6 border-t border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <FlaskConical className="w-4 h-4 text-[#0055A4]" />
@@ -250,10 +279,14 @@ export default function GradeDetail() {
                 </table>
               </div>
             </div>
+          ) : (
+            <div className="pt-4 border-t border-slate-200 text-xs text-slate-500 italic">
+              Detailed chemical composition for {grade.grade} is available on request in accordance with relevant mill specifications.
+            </div>
           )}
 
           {/* Mechanical Properties Table */}
-          {grade.mechanicalProperties && grade.mechanicalProperties.length > 0 && (
+          {grade.mechanicalProperties && grade.mechanicalProperties.length > 0 ? (
             <div className="pt-6 border-t border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-[#E3000F]" />
@@ -264,7 +297,7 @@ export default function GradeDetail() {
                   <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[11px] tracking-wider border-b border-slate-200">
                     <tr>
                       <th className="py-3 px-4">Mechanical Property</th>
-                      <th className="py-3 px-4">Guaranteed Minimum / Range</th>
+                      <th className="py-3 px-4">Guaranteed Minimum / Certified Value</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 bg-white">
@@ -278,83 +311,154 @@ export default function GradeDetail() {
                 </table>
               </div>
             </div>
+          ) : (
+            <div className="pt-4 border-t border-slate-200 text-xs text-slate-500 italic">
+              Mechanical property guarantees for {grade.grade} are provided with EN 10204 3.1 inspection certification.
+            </div>
           )}
 
         </div>
       </section>
 
-      {/* Available Products in This Grade Section */}
-      <section className="py-12 sm:py-16 bg-slate-100/70 border-b border-slate-200" id="products">
+      {/* GRADE-WISE ASSOCIATED PRODUCTS (Cards from productMaterials with Real Images & object-cover) */}
+      <section className="py-12 sm:py-16 bg-slate-50 border-b border-slate-200" id="available-products">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#E3000F] mb-1">
                 <Box className="w-3.5 h-3.5" />
-                Product Range Available in {grade.grade}
+                Products Available in {grade.grade}
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0055A4]">
-                Steel Products Supplied in {grade.name}
+                Steel Products Supplied in {grade.grade}
               </h2>
+              <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+                Displaying products available in {grade.name} with complete dimensional availability.
+              </p>
             </div>
             <Link
-              to={`/contact?grade=${encodeURIComponent(grade.grade)}`}
+              to={`/contact?material=${encodeURIComponent(parentMaterial.name)}&grade=${encodeURIComponent(grade.grade)}`}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#0055A4] hover:bg-[#003d7a] transition-colors shadow-2xs"
             >
-              Request Custom Dimension Quote <ArrowRight className="w-3.5 h-3.5" />
+              Request Custom Dimensions <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {availableProductCategories.length > 0 ? (
-            <div className="space-y-10">
-              {availableProductCategories.slice(0, 6).map(({ category, types }) => (
-                <div key={category.id} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                      <Factory className="w-4 h-4 text-[#0055A4]" />
-                      {category.name} in {grade.grade}
-                    </h3>
-                    <Link
-                      to={getCategoryUrl(category.id)}
-                      className="text-xs font-bold text-[#0055A4] hover:text-[#E3000F] flex items-center gap-1 transition-colors"
-                    >
-                      View All {category.name} Types <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+          {/* 1. Real Product Materials Cards with object-cover */}
+          {gradeProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {gradeProducts.map((pItem, idx) => {
+                const detailUrl = getProductMaterialUrl(parentMaterial.id, pItem);
+                const primarySpec = pItem.standards?.split(',')[0] || pItem.forms || 'ASTM Standard';
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                    {types.slice(0, 8).map(type => (
-                      <Link
-                        key={type.id}
-                        to={getTypeMaterialUrl(category.id, type.id, parentMaterial.id)}
-                        className="p-3 rounded-lg border border-slate-100 bg-slate-50 hover:bg-white hover:border-[#0055A4] hover:shadow-xs transition-all text-left group"
-                      >
-                        <div className="text-xs font-bold text-slate-800 group-hover:text-[#0055A4] line-clamp-1">
-                          {type.name}
+                return (
+                  <Link
+                    key={pItem.id || pItem.pureSlug || idx}
+                    to={detailUrl}
+                    className="group relative bg-white rounded-xl border border-slate-200 hover:border-[#0055A4] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full text-left min-h-[360px]"
+                  >
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-[#E3000F] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10" />
+
+                    {/* Image Area with strict object-cover */}
+                    <div className="relative h-48 bg-slate-100 overflow-hidden">
+                      {pItem.image ? (
+                        <img
+                          src={pItem.image}
+                          alt={`${pItem.title} - ${grade.grade}`}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 text-slate-400 p-4 text-center">
+                          <Box className="w-8 h-8 text-slate-300 mb-1" />
+                          <span className="text-[11px] font-bold text-slate-500 line-clamp-1">{pItem.title}</span>
                         </div>
-                        <div className="text-[10px] text-slate-400 mt-1 flex items-center justify-between">
-                          <span>{grade.grade}</span>
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      )}
+
+                      <div className="absolute top-2 left-2 bg-white/95 border border-slate-200 text-[#0055A4] font-mono text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10">
+                        {grade.grade}
+                      </div>
+
+                      <div className="absolute top-2 right-2 bg-white/95 text-slate-800 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs z-10">
+                        {parentMaterial.name}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                      <div>
+                        <h3 className="font-bold text-slate-900 group-hover:text-[#0055A4] transition-colors text-sm leading-snug line-clamp-2">
+                          {pItem.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 line-clamp-2 mt-1.5 leading-relaxed">
+                          {pItem.description}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2.5 pt-2 border-t border-slate-100">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-50 border border-slate-200/80 text-[11px] font-mono text-slate-700">
+                          <Box className="w-3 h-3 text-[#0055A4] shrink-0" />
+                          <span className="line-clamp-1">{primarySpec}</span>
                         </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
+
+                        <div className="w-full inline-flex items-center justify-center px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#0055A4] group-hover:bg-[#E3000F] shadow-sm transition-colors duration-200">
+                          <span>View Product Details</span>
+                          <ArrowRight className="w-3 h-3 ml-1.5 transition-transform group-hover:translate-x-1" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center py-10 bg-white rounded-xl border border-slate-200 p-6">
-              <p className="text-slate-600 text-sm">Custom products in {grade.name} available on request.</p>
-              <Link to="/contact" className="inline-block mt-3 text-xs font-bold text-[#0055A4]">
-                Contact Engineering Sales &rarr;
+            <div className="text-center py-12 bg-white rounded-xl border border-slate-200 p-8">
+              <Box className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+              <p className="text-slate-700 text-sm font-bold">Standard products in {grade.name} supplied to custom requisition.</p>
+              <p className="text-slate-500 text-xs mt-1">Contact our Chennai technical desk for custom fabrication dimensions.</p>
+              <Link to="/contact" className="inline-block mt-3 text-xs font-bold text-[#0055A4] hover:underline">
+                Contact Sales Desk &rarr;
               </Link>
+            </div>
+          )}
+
+          {/* 2. Product Categories from products.js */}
+          {gradeCategories.length > 0 && (
+            <div className="pt-8 mt-8 border-t border-slate-200 space-y-6">
+              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <Factory className="w-4 h-4 text-[#0055A4]" />
+                Standard Manufacturing Categories Supplying {grade.grade}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {gradeCategories.slice(0, 6).map(({ category, types }) => (
+                  <div key={category.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                      <span className="text-xs font-bold text-slate-900 line-clamp-1">{category.name}</span>
+                      <Link
+                        to={getCategoryUrl(category.id)}
+                        className="text-[11px] font-bold text-[#0055A4] hover:text-[#E3000F] flex items-center gap-0.5"
+                      >
+                        All Types &rarr;
+                      </Link>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {types.slice(0, 6).map(t => (
+                        <span key={t.id} className="text-[11px] font-medium bg-slate-50 px-2 py-0.5 rounded border border-slate-200 text-slate-700">
+                          {t.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
         </div>
       </section>
 
-      {/* Applications Section */}
+      {/* Industrial Applications Section */}
       {grade.applications && grade.applications.length > 0 && (
         <section className="bg-white py-12 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -362,18 +466,46 @@ export default function GradeDetail() {
               <Compass className="w-5 h-5 text-[#E3000F]" />
               Industrial Applications for {grade.name}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {grade.applications.map((app, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left space-y-1">
+                <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left space-y-1 hover:border-[#0055A4] transition-colors">
                   <div className="w-2 h-2 rounded-full bg-[#0055A4]"></div>
                   <div className="text-xs font-bold text-slate-800">{app}</div>
+                  <div className="text-[10px] text-slate-500">Certified for critical process service</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
       )}
+
+      {/* Bottom Inquiry CTA */}
+      <section className="bg-[#0055A4] text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-extrabold">
+            Ready to Order {grade.grade} Materials?
+          </h2>
+          <p className="text-white/80 text-sm max-w-xl mx-auto">
+            Submit your Bill of Materials or required dimensions. We stock and manufacture {grade.grade} with complete mill test certification.
+          </p>
+          <div className="pt-2 flex justify-center gap-4">
+            <Link
+              to={`/contact?material=${encodeURIComponent(parentMaterial.name)}&grade=${encodeURIComponent(grade.grade)}`}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-bold text-[#0055A4] bg-white hover:bg-slate-100 shadow transition-colors"
+            >
+              <Mail className="w-4 h-4 text-[#E3000F]" />
+              Inquire for {grade.grade}
+            </Link>
+            <a
+              href="tel:+914425228058"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-bold text-white border border-white/40 hover:bg-white/10 transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              Call Chennai Sales Desk
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
-
